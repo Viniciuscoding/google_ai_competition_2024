@@ -1,0 +1,72 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+<!DOCTYPE html>
+<html>
+<!--
+    This HTML file serves as the popup page for the Youtube Transcript Summarizer Chrome extension.
+
+<!--
+    This HTML file serves as the popup page for the Youtube Transcript Summarizer Chrome extension.
+    It includes a button that users can click to summarize the transcript of a YouTube video.
+    The file also contains styling to make the popup visually appealing.
+    -->
+
+<head>
+    <title>Youtube Transcript Summarizer</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body style="background-color: white;">
+    <h1 class="roboto-bold , h1-box" style="color: white";>
+        Youtube Transcript Summarizer
+    </h1>
+    <div class="tab">
+        <button class="tablinks" id="defaultOpen">Summary</button>
+        <button class="tablinks" >Chat</button>
+    </div>
+
+    <!-- Tab content -->
+    <div id="Summary" class="tabcontent">
+        <h3 style="display: inline-block;">
+            This is the summary section, Click to Summarize
+            <button id="summarize" type="button-10">
+                Summarize
+            </button>
+        </h3>
+        <br />
+        <p id="output">
+        </p>
+    </div>
+
+    <div id="Chat" class="tabcontent">
+        <h3>Here is the chat section</h3>
+        <div id="conversation-history"></div>
+        <input type="text" id="user-input" placeholder="Type your message...">
+        <button id="send-button">
+            Send
+        </button>
+    </div>
+
+    <label for="max_length">
+        Max Length:
+    </label>
+    <input type="number" id="max_length" name="max_length" value="150">
+    <br>
+    <label id="topics">
+        TOPICS:
+    </label>
+    <br>
+    <label id="sentiments">
+        SENTIMENT:
+    </label>
+    <br><br>
+    <br><br>
+    <br><br>
+    <br><br>
+
+    <script src="Popup.js">
+    </script>
+</body>
+
+</html>
