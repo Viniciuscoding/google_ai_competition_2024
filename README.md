@@ -12,7 +12,7 @@ Deloitte Team Submission GCP/Gemini Hackathon. Showcasing a Youtube Multimodal a
 ### Varunya Yanamadala
 
 
-# YouTube-Transcript-Summarizer
+# YouTube Agent
 
 **Youtube Agent** is a Chrome Extension that allows users to get a **AI agent suppport** of YouTube videos with a **single click**. It provides the following support for videos, summarization, It is built on a **Flask Backend REST API** to expose the summarization service to the client.
 
