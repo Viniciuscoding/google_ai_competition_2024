@@ -1,1 +1,0 @@
-# google_ai_competition_2024
