@@ -1,20 +1,20 @@
-# Gemini Hackathon 2024
+# Google AI Competition 2024
 Deloitte Team Submission GCP/Gemini Hackathon. Showcasing a Youtube Multimodal analysis chrome plugin.
 
 ## Youtube Multimodal Video Analysis Chrome Plugin
 ## Team Members:
 ### Vinicus Granja
-### Jay Park
 ### Pradeep Mohan
-### Antoine
 ### Hector
 ### Andrew Irwin
 ### Trenten Babcock
+### Alejandra Lelo de Larrea Ibarra
+### Varunya Yanamadala
 
 
 # YouTube-Transcript-Summarizer
 
-**Youtube Transcript Summarizer** is a Chrome Extension that allows users to get a **summarized** version of the transcripts of YouTube videos with a **single click**. It is built on a **Flask Backend REST API** to expose the summarization service to the client.
+**Youtube Agent** is a Chrome Extension that allows users to get a **AI agent suppport** of YouTube videos with a **single click**. It provides the following support for videos, summarization, It is built on a **Flask Backend REST API** to expose the summarization service to the client.
 
 
 ## Project Stages
