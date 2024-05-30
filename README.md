@@ -14,7 +14,7 @@ Deloitte Team Submission GCP/Gemini Hackathon. Showcasing a Youtube Multimodal a
 
 # YouTube Agent
 
-**Youtube Agent** is a Chrome Extension that allows users to get a **AI agent suppport** of YouTube videos with a **single click**. It provides the following support for videos, summarization, It is built on a **Flask Backend REST API** to expose the summarization service to the client.
+**Youtube Agent** is a Chrome Extension that allows users to get a **AI agent suppport** of YouTube videos with a **single click**. The extension provides the following support for videos: summarization, translation, Q&A chatbot, sentiment analysis, topic modeling, fake news checker, and age approprietness. It is built on a **Flask Backend REST API** to expose the summarization service to the client.
 
 
 ## Project Stages
