@@ -1,6 +1,6 @@
 # Import all the necessary dependencies
 import os
-from flask import Flask, request, jsonify
+from flask import Flask, request
 from youtube_transcript_api import YouTubeTranscriptApi
 from langdetect import detect
 import google.generativeai as genai
