@@ -13,6 +13,11 @@ from vertexai.preview import generative_models
 from vertexai.preview.generative_models import GenerativeModel, Part
 import os
 from dotenv import load_dotenv
+load_dotenv('/Users/trentenbabcock/repos/google_ai_competition_2024/.env')
+# Accessing the environment variables
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
+
+
 """ from task_configs import (
     GEMINI_1_5_VIDEO_TRANSCRIPT_PROMPT,
     GEMINI_GENAI_OBJECT,
@@ -62,8 +67,8 @@ GEMINI_SAFETY_SETTINGS = [
     "threshold": "BLOCK_NONE"
   },
 ]
-aiplatform.init(project="vertexai-gemini-hackathon-2024")
-vertexai.init(project="vertexai-gemini-hackathon-2024")
+aiplatform.init(project="helpful-compass-425319-r7")
+vertexai.init(project="helpful-compass-425319-r7")
 vertexai.preview.init()
 class VideoTopicExtraction(BaseModel):
     '''An Extraction of Key Features from an input video JSON'''
@@ -92,27 +97,28 @@ def detect_topics_sentiment(transcript_text):
     genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
     GEMINI_GENAI_OBJECT = genai
 
-    generative_multimodal_model_vertex = GenerativeModel(model_name="gemini-1.0-pro-vision",
+    generative_multimodal_model = GenerativeModel(model_name="gemini-1.0-pro-vision",
                                                          generation_config=GEMINI_GENERATION_CONFIG)
-    generative_multimodal_model = GEMINI_GENAI_OBJECT.GenerativeModel(model_name="gemini-1.5-pro-latest", generation_config=GEMINI_GENERATION_CONFIG,safety_settings=GEMINI_SAFETY_SETTINGS)
+    # generative_multimodal_model = GEMINI_GENAI_OBJECT.GenerativeModel(model_name="gemini-1.5-pro-latest", generation_config=GEMINI_GENERATION_CONFIG,safety_settings=GEMINI_SAFETY_SETTINGS)
     contents = [transcript_text, GEMINI_1_5_VIDEO_TRANSCRIPT_PROMPT]
     response = generative_multimodal_model.generate_content(contents)
     response_text = str(response.text)
-    #print(response_text)
-    text_json = {"type":"text",
-                 "text":response_text,
-               }
-    text_message = {"type": "text",
-                    "text": "What are the contents of the JSON ?",
-                    }
+    return response_text
+    # #print(response_text)
+    # text_json = {"type":"text",
+    #              "text":response_text,
+    #            }
+    # text_message = {"type": "text",
+    #                 "text": "What are the contents of the JSON ?",
+    #                 }
 
-    message_contents =  [text_message,text_json]
-    message = HumanMessage(content=message_contents)
-    llm = ChatVertexAI(model_name="gemini-1.0-pro-001",max_retries=0, temperature=0)
-    structured_llm = llm.with_structured_output(dict_schema)
-    extraction_response_dict = structured_llm.invoke([message])[0]
-    extraction_response = extraction_response_dict['args']
-    return extraction_response
+    # message_contents =  [text_message,text_json]
+    # message = HumanMessage(content=message_contents)
+    # llm = ChatVertexAI(model_name="gemini-1.0-pro-001",max_retries=0, temperature=0)
+    # structured_llm = llm.with_structured_output(dict_schema)
+    # extraction_response_dict = structured_llm.invoke([message])[0]
+    # extraction_response = extraction_response_dict['args']
+    # return extraction_response
 
 if __name__ == '__main__':
     transcript_text = ""

@@ -2,7 +2,7 @@
 from google.cloud import secretmanager
 
 # GCP project in which to store secrets in Secret Manager.
-project_id = "vertexai-gemini-hackathon-2024"
+project_id = "helpful-compass-425319-r7"
 
 # ID of the secret to create.
 

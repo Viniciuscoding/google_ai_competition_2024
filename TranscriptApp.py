@@ -8,13 +8,14 @@ from dotenv import load_dotenv
 from Gemini_Video_Summary import Gemini_Summarization
 from configured_chat import ConfiguredChat
 from notebooks.topic_detection_function import detect_topics_sentiment
+from configs import VIN_SUMMARY_PROMPT
 
 load_dotenv()  # Load environment variables from .env file
 application = Flask(__name__)
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 chat_instance = ConfiguredChat(
-    project_id="vertexai-gemini-hackathon-2024",
+    project_id="helpful-compass-425319-r7",
     model_name="gemini-1.5-pro-preview-0409",
 )
 
@@ -40,6 +41,7 @@ def summary_api():
     - int: HTTP status code (200 for success, 404 for failure).
     """
     url = request.args.get("url", "")
+    print(f"url: {url}\n")
     max_length = int(request.args.get("max_length", 150))
     video_id = url.split("=")[1]
     summarizer = Gemini_Summarization()
@@ -51,12 +53,10 @@ def summary_api():
         return "No subtitles available for this video", 404
 
     try:
-        # final_summary, combined_summaries = summarizer.complete_summarization(
-        #     transcript, is_YU_url=False
-        # )
+        final_summary = summarizer.generate_response(transcription=transcript, prompt=VIN_SUMMARY_PROMPT)
         sentiment_topic = detect_topics_sentiment(transcript)
         print(f"sentiment: {sentiment_topic}\n")
-        # print(f"summary: {final_summary}\n")
+        print(f"summary: {final_summary}\n")
     except Exception as e:
         print(f"Error occurred during summarization: {str(e)}")
         return "An error occurred during summarization. Please try again later.", 500

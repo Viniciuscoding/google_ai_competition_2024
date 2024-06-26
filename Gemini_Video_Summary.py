@@ -6,6 +6,23 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from notebooks.transcribe_translate import TranscribeTranslate
 import Youtube_transcript
 
+from google.cloud import aiplatform
+from langchain_google_vertexai import ChatVertexAI
+from langchain_core.pydantic_v1 import BaseModel, Field
+from typing import List
+from langchain_google_vertexai import HarmBlockThreshold, HarmCategory
+from langchain_core.utils.function_calling import convert_to_openai_function
+from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
+import time
+import google.generativeai as genai
+import vertexai
+from vertexai.preview import generative_models
+from dotenv import load_dotenv
+import os
+load_dotenv('/Users/trentenbabcock/repos/google_ai_competition_2024/.env')
+# Accessing the environment variables
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
+
 # NOTE: The os.environ["GOOGLE_API_KEY"] will need to be populated for the following code to run
 
 class Gemini_Summarization:
@@ -93,3 +110,13 @@ Transcript {context}
         chain_final = LLMChain(llm=self.llm, prompt=prompt_final)
 
         return chain_final.invoke(context)['text']
+
+    # VINNY SUMMARY CODE
+    def generate_response(self, transcription, prompt, api = GEMINI_API_KEY, model = 'gemini-1.5-pro-latest'):
+    # Return a gemini response
+        genai.configure(api_key=api)
+        model = genai.GenerativeModel(model)
+        theprompt = prompt + transcription
+        response = model.generate_content(theprompt)
+        result = ''.join([p.text for p in response.candidates[0].content.parts])
+        return result
