@@ -42,21 +42,15 @@ def summary_api():
     """
     url = request.args.get("url", "")
     print(f"url: {url}\n")
-    max_length = int(request.args.get("max_length", 150))
     video_id = url.split("=")[1]
-    summarizer = Gemini_Summarization()
-
     try:
         transcript = get_transcript(video_id)
-        # print(f"transcript: {transcript}\n")
     except:
         return "No subtitles available for this video", 404
 
     try:
-        final_summary = summarizer.generate_response(transcription=transcript, prompt=VIN_SUMMARY_PROMPT)
         sentiment_topic = detect_topics_sentiment(transcript)
-        print(f"sentiment: {sentiment_topic}\n")
-        # print(f"summary: {final_summary}\n")
+
     except Exception as e:
         print(f"Error occurred during summarization: {str(e)}")
         return "An error occurred during summarization. Please try again later.", 500

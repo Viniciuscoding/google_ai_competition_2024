@@ -34,28 +34,26 @@ document.addEventListener('DOMContentLoaded', function () {
                 xhr.onload = function () {
 
                     var response = JSON.parse(xhr.responseText);
-                    var text = response.description;
-                    // var summary = text.description;
-                    // var topics = text.topics;
-                    // var sentiments = response.sentiments;
 
-                    console.log("Parsed summary:", text);
+                    var summary = response.description;
+                    var topics = response.topics;
+                    var sentiments = response.sentiments;
 
                     const p = document.getElementById("output");
                     if (p) {
                         console.log("Setting innerHTML of output element");
-                        p.innerHTML = text;
+                        p.innerHTML = summary;
                     } else {
                         console.error("Output element not found");
                     }
 
-                    // const topics_div = document.getElementById("topics");
+                    const topics_div = document.getElementById("topics");
 
-                    // topics_div.innerHTML = "TOPICS: " + topics;
+                    topics_div.innerHTML = "TOPICS: " + topics;
 
-                    // const sentiments_div = document.getElementById("sentiments");
+                    const sentiments_div = document.getElementById("sentiments");
 
-                    // sentiments_div.innerHTML = "SENTIMENTS: " + sentiments;
+                    sentiments_div.innerHTML = "SENTIMENTS: " + sentiments;
                     btn.disabled = false;
                     btn.innerHTML = "Summarize";
                 }
