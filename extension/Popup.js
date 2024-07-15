@@ -30,29 +30,32 @@ document.addEventListener('DOMContentLoaded', function () {
                 var maxLength = document.getElementById("max_length").value || 150;
                 var xhr = new XMLHttpRequest();
                 xhr.open("GET", "http://127.0.0.1:5000/summary?url=" + url + "&max_length=" + maxLength, true);
+                console.log("loading function is about to be called")
                 xhr.onload = function () {
-                    // var response = xhr.responseText
-                    var response = JSON.parse(xhr.responseText)
-                    var summary = response.description;
-                    var topics = response.key_topics
-                    var sentiments = response.sentiments
 
+                    var response = JSON.parse(xhr.responseText);
+                    var text = response.description;
+                    // var summary = text.description;
+                    // var topics = text.topics;
+                    // var sentiments = response.sentiments;
+
+                    console.log("Parsed summary:", text);
 
                     const p = document.getElementById("output");
-                    if (xhr.status === 404) {
-                        p.innerHTML = "No subtitles available for this video";
+                    if (p) {
+                        console.log("Setting innerHTML of output element");
+                        p.innerHTML = text;
                     } else {
-                        p.innerHTML = summary;
-                        console.log(summary);
+                        console.error("Output element not found");
                     }
 
-                    const topics_div = document.getElementById("topics");
+                    // const topics_div = document.getElementById("topics");
 
-                    topics_div.innerHTML = "TOPICS: " + topics;
+                    // topics_div.innerHTML = "TOPICS: " + topics;
 
-                    const sentiments_div = document.getElementById("sentiments");
+                    // const sentiments_div = document.getElementById("sentiments");
 
-                    sentiments_div.innerHTML = "SENTIMENTS: " + sentiments;
+                    // sentiments_div.innerHTML = "SENTIMENTS: " + sentiments;
                     btn.disabled = false;
                     btn.innerHTML = "Summarize";
                 }

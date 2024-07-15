@@ -12,6 +12,7 @@ import vertexai
 from vertexai.preview import generative_models
 from vertexai.preview.generative_models import GenerativeModel, Part
 import os
+import json
 from dotenv import load_dotenv
 load_dotenv('/Users/trentenbabcock/repos/google_ai_competition_2024/.env')
 # Accessing the environment variables
@@ -103,7 +104,11 @@ def detect_topics_sentiment(transcript_text):
     contents = [transcript_text, GEMINI_1_5_VIDEO_TRANSCRIPT_PROMPT]
     response = generative_multimodal_model.generate_content(contents)
     response_text = str(response.text)
-    return response_text
+
+    # print(response_text)# Remove the Markdown code block formatting
+    json_string = response_text.replace('```json', '').replace('```', '').strip()
+
+    return json.loads(json_string)
     # #print(response_text)
     # text_json = {"type":"text",
     #              "text":response_text,

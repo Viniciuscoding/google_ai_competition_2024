@@ -56,7 +56,7 @@ def summary_api():
         final_summary = summarizer.generate_response(transcription=transcript, prompt=VIN_SUMMARY_PROMPT)
         sentiment_topic = detect_topics_sentiment(transcript)
         print(f"sentiment: {sentiment_topic}\n")
-        print(f"summary: {final_summary}\n")
+        # print(f"summary: {final_summary}\n")
     except Exception as e:
         print(f"Error occurred during summarization: {str(e)}")
         return "An error occurred during summarization. Please try again later.", 500
