@@ -1,14 +1,12 @@
 # Import all the necessary dependencies
 import os
-from flask import Flask, request, jsonify
+from flask import Flask, request
 from youtube_transcript_api import YouTubeTranscriptApi
 from langdetect import detect
 import google.generativeai as genai
 from dotenv import load_dotenv
-from Gemini_Video_Summary import Gemini_Summarization
 from configured_chat import ConfiguredChat
 from notebooks.topic_detection_function import detect_topics_sentiment
-from configs import VIN_SUMMARY_PROMPT
 
 load_dotenv()  # Load environment variables from .env file
 application = Flask(__name__)
