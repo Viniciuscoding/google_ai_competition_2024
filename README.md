@@ -1,77 +1,69 @@
-# Google AI Competition 2024
-Deloitte Team Submission GCP/Gemini Hackathon. Showcasing a Youtube Multimodal analysis chrome plugin.
+# YouTube Agent - Google AI Competition 2024
 
-## Youtube Multimodal Video Analysis Chrome Plugin
-## Team Members:
-### Vinicus Granja
-### Pradeep Mohan
-### Hector
-### Andrew Irwin
-### Trenten Babcock
-### Alejandra Lelo de Larrea Ibarra
-### Varunya Yanamadala
+Deloitte Team Submission for GCP/Gemini Hackathon. A Chrome Extension for YouTube Multimodal Analysis.
 
+## Overview
 
-# YouTube Agent
+YouTube Agent is a Chrome Extension that provides AI-powered support for YouTube videos with a single click. It offers features such as summarization, translation, Q&A chatbot, sentiment analysis, topic modeling, fake news checking, and age appropriateness evaluation.
 
-**Youtube Agent** is a Chrome Extension that allows users to get a **AI agent suppport** of YouTube videos with a **single click**. The extension provides the following support for videos: summarization, translation, Q&A chatbot, sentiment analysis, topic modeling, fake news checker, and age approprietness. It is built on a **Flask Backend REST API** to expose the summarization service to the client.
+![Project Stages](/extension/images/stages.png)
 
+## Key Features
 
-## Project Stages
-![alt text](/extension/images/stages.png?raw=true)
+- Dynamic text summarization with adjustable length
+- Language-agnostic transcript summarization
+- Support for videos without subtitles
+- Asynchronous communication with Flask Backend
+- Multiple analysis options: sentiment, topic modeling, fake news detection, etc.
 
+## Demo
 
-## Features
-- Allows the user to adjust the maximum length of the summarized text through dynamic truncation.
-- Adopts a language-agnostic approach and supports transcript summarization even for videos without subtitles.
-- Employs an asynchronous XMLHttpRequest to ensure non-blocking communication with the Flask Backend.
+![Screenshot](/extension/images/screenshot-youtube-summary.png)
 
-
-## Output Screenshot
-![alt text](/extension/images/screenshot-youtube-summary.png?raw=true)
-
-
-## Youtube Link to Demo
-[![Watch the video](https://img.youtube.com/vi/bu5BQ0PadBo/default.jpg)](https://www.youtube.com/watch?v=bu5BQ0PadBo)
+[Watch Demo Video](https://www.youtube.com/watch?v=bu5BQ0PadBo)
 
 ## Installation
-- Clone this repository to your local machine:
--
-  ```
-  git clone https://github.com/<your-username>/geminihackathon24.git
 
-  cd YouTube-Transcript-Summarizer
-  ```
+1. Clone the repository: `git clone https://github.com/babcockt18/sentiment-analysis-youtube-chrome-extension.git`
 
-- Create the conda environment using the `environment.yml` file: `conda env create -f environment.yml`
-- Activate the conda environment: `conda activate hackathonEnv`
-- Next, install the dependencies:
--
-  ```
-  pip install -r Requirements.txt
-  ```
+2. Set up the environment: `conda env create -f environment.yml \n conda activate hackerEnv \n pip install -r requirements.txt`
 
-- Next create a .env file with your gemini API key `GOOGLE_API_KEY=<your-key-here>`
-- To execute the Application locally:
-  - Start the Flask backend on the terminal using the following command:
+3. Create a `.env` file with your Gemini API key: `GOOGLE_API_KEY=your_api_key`
 
-    ```
-    python TranscriptApp.py
-    ```
-    This will start a local server at ```http://127.0.0.1:5000/```. You may see a couple of warnings but it's all good and you may ignore it!
-  - Load the extension into Google Chrome:
-    - Open Google Chrome and go to ```chrome://extensions/```.
-    - Enable the ```Developer mode``` toggle in the top right corner.
-    - Click on ```Load unpacked``` and then select the folder ```extension``` inside the directory folder ```geminihackathon24```. The one you cloned from this repository.
-  - You should now see the extension loaded in the Chrome toolbar. Navigate to any YouTube video, click on the extension icon, and click "Summarize" to see the summary of the video   transcript.
-  - All Done..!!
+4. Run the Flask backend: `python TranscriptApp.py`
 
+This will start a local server at `http://127.0.0.1:5000/`. You may see a couple of warnings, but you can ignore them.
 
-## Contribution
-Contributions to this project are *welcome!* If you wish to contribute, please follow these steps:
-- Fork the repository.
-- Create a new branch for your features or fixes.
-- Make your changes and commit them.
-- Push your changes to your fork.
-- Create a Pull Request from your fork to this repository.
-- Make sure to update the ```Requirements.txt``` file if you've added any new dependencies.
+5. Load the Chrome extension:
+
+- Go to `chrome://extensions/`
+- Enable "Developer mode"
+- Click "Load unpacked" and select the `extension` folder inside the `geminihackathon24` directory
+
+## Usage
+
+Navigate to any YouTube video, click the extension icon, and select "Summarize" to see the video transcript summary and access other analysis features.
+
+## Contributing
+
+Contributions are welcome! To contribute:
+
+1. Fork the repository
+2. Create a new branch for your feature/fix
+3. Make changes and commit
+4. Push changes to your fork
+5. Create a Pull Request
+6. Update `Requirements.txt` if new dependencies are added
+
+## Technologies Used
+
+- Flask Backend REST API
+- Google Cloud Platform (GCP)
+- Gemini AI
+- Chrome Extension API
+- Conda for environment management
+- Various Python libraries (see `environment.yml` for details)
+
+## Note
+
+This project is part of the Google AI Competition 2024 and showcases the integration of GCP/Gemini technologies with a practical Chrome extension for YouTube video analysis.
