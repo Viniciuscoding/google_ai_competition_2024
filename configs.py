@@ -1,9 +1,8 @@
 from google.cloud import aiplatform
 import google.generativeai as genai
 import vertexai
-import os
 from dotenv import load_dotenv
-load_dotenv('/Users/trentenbabcock/repos/google_ai_competition_2024/.env')
+load_dotenv('./google_ai_competition_2024/.env')
 # genai.configure(api_key=GOOGLE_API_KEY)
 GEMINI_GENAI_OBJECT = genai
 VIDEO_PART_MAX_DURATION=120 #Part duration in seconds
