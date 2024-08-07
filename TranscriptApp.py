@@ -2,6 +2,7 @@
 import os
 from flask import Flask, request
 from youtube_transcript_api import YouTubeTranscriptApi
+from youtube_transcript_api._errors import CouldNotRetrieveTranscript
 from langdetect import detect
 import google.generativeai as genai
 from dotenv import load_dotenv
@@ -67,8 +68,8 @@ def is_transcript_english(transcript):
         language = detect(transcript)
         return language == "en"
 
-    except Exception as e:
-        return False
+    except CouldNotRetrieveTranscript as e:
+        return e.CAUSE_MESSAGE
 
 
 def get_transcript(video_id):
