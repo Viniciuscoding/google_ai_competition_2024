@@ -4,7 +4,7 @@ import vertexai.preview.generative_models as generative_models
 
 class ConfiguredChat:
     def __init__(self, project_id, model_name):
-        vertexai.init(project="vertexai-gemini-hackathon-2024", location="us-central1")
+        vertexai.init(project="helpful-compass-425319-r7", location="us-central1")
         self.project_id = project_id
         self.model_name = model_name
         self.safety_settings = {
@@ -22,7 +22,7 @@ class ConfiguredChat:
         # self.chat = self.model.start_chat()
 # Example usage
 # if __name__ == "__main__":
-#     project_id = "vertexai-gemini-hackathon-2024"
+#     project_id = "helpful-compass-425319-r7"
 #     model_name = "gemini-1.5-pro-preview-0409"
 
 #     # Create an instance of ConfiguredChat

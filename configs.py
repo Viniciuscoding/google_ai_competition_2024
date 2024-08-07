@@ -1,7 +1,9 @@
 from google.cloud import aiplatform
 import google.generativeai as genai
 import vertexai
-genai.configure(api_key=GOOGLE_API_KEY)
+from dotenv import load_dotenv
+load_dotenv('./google_ai_competition_2024/.env')
+# genai.configure(api_key=GOOGLE_API_KEY)
 GEMINI_GENAI_OBJECT = genai
 VIDEO_PART_MAX_DURATION=120 #Part duration in seconds
 GEMINI_1_5_VIDEO_PROMPT=""" You are provided with a video. Your task is to analyze the video and extract the following information from the video:
@@ -42,6 +44,13 @@ GEMINI_1_5_VIDEO_TRANSCRIPT_PROMPT=""" You are provided with a transcript of vid
 The information must be extracted only from the video and you must not refer to outside sources.
 Make sure you generate the final output in a valid JSON format enclosed within opening and closing curly braces. Do not add the word JSON to the beginning of your response.
 """
+
+VIN_SUMMARY_PROMPT = """Provide me with a summarization of the video transcription.
+Your response should be structured in a markdown format where the overall topic is at the top followed by each supporting topic.
+The overall topic should be bolded, and sub-topics formatted as a dash list where the sub-topic is bolded and italized, while, the description is non-bolded. The sub-topics should be in chronological order.
+Do not repeat profane, toxic, or improper words found in the transcription within your answer. Video transcription: {transcription}
+"""
+
 #Generation Config
 GEMINI_GENERATION_CONFIG = {
   "temperature": 0
@@ -65,8 +74,8 @@ GEMINI_SAFETY_SETTINGS = [
     "threshold": "BLOCK_NONE"
   },
 ]
-aiplatform.init(project="vertexai-gemini-hackathon-2024")
-vertexai.init(project="vertexai-gemini-hackathon-2024")
+aiplatform.init(project="helpful-compass-425319-r7")
+vertexai.init(project="helpful-compass-425319-r7")
 vertexai.preview.init()
 DEFAULT_VIDEOS_BUCKET="youtube_videos_1"
 DEFAULT_GEMINI_BATCH_SIZE=10
