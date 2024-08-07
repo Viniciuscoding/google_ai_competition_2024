@@ -44,8 +44,8 @@ def summary_api():
     video_id = url.split("=")[1]
     try:
         transcript = get_transcript(video_id)
-    except:
-        return "No subtitles available for this video", 404
+    except CouldNotRetrieveTranscript as e:
+        return e.CAUSE_MESSAGE, 404
 
     try:
         sentiment_topic = detect_topics_sentiment(transcript)
