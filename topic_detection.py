@@ -1,19 +1,15 @@
-from google.cloud import aiplatform
-from langchain_google_vertexai import ChatVertexAI
-from langchain_core.pydantic_v1 import BaseModel, Field
+import os
+import json
 from typing import List
-from langchain_google_vertexai import HarmBlockThreshold, HarmCategory
+from google.cloud import aiplatform
+from langchain_core.pydantic_v1 import BaseModel, Field
 from langchain_core.utils.function_calling import convert_to_openai_function
-from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
-import time
 from google.cloud import aiplatform
 import google.generativeai as genai
 import vertexai
-from vertexai.preview import generative_models
-from vertexai.preview.generative_models import GenerativeModel, Part
-import os
-import json
+from vertexai.preview.generative_models import GenerativeModel
 from dotenv import load_dotenv
+
 load_dotenv('./google_ai_competition_2024/.env')
 # Accessing the environment variables
 GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
