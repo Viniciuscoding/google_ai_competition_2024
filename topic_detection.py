@@ -4,7 +4,6 @@ from typing import List
 from google.cloud import aiplatform
 from langchain_core.pydantic_v1 import BaseModel, Field
 from langchain_core.utils.function_calling import convert_to_openai_function
-from google.cloud import aiplatform
 import google.generativeai as genai
 import vertexai
 from vertexai.preview.generative_models import GenerativeModel
@@ -25,7 +24,7 @@ from benchmark_examples import (
     GEMINI_1_5_PRO_BENCHMARK_EXTRACTION_LEX_TUCKER_TRANSCRIPT
 ) """
 VIDEO_PART_MAX_DURATION=120 #Part duration in seconds
-import vertexai
+
 GEMINI_1_5_VIDEO_TRANSCRIPT_PROMPT=""" You are provided with a transcript of video. Your task is to analyze the video's transcript
  and extract the following information from the transcript:
 1. description: <a proper summary of the video in 1000 tokens>
