@@ -6,7 +6,7 @@ from langdetect import detect
 import google.generativeai as genai
 from dotenv import load_dotenv
 from configured_chat import ConfiguredChat
-from notebooks.topic_detection_function import detect_topics_sentiment
+from topic_detection import detect_topics_sentiment
 
 load_dotenv()  # Load environment variables from .env file
 application = Flask(__name__)
