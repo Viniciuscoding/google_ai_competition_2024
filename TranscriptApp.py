@@ -1,20 +1,20 @@
 # Import all the necessary dependencies
 import os
-from flask import Flask, request, jsonify
+from flask import Flask, request
 from youtube_transcript_api import YouTubeTranscriptApi
+from youtube_transcript_api._errors import CouldNotRetrieveTranscript
 from langdetect import detect
 import google.generativeai as genai
 from dotenv import load_dotenv
-from Gemini_Video_Summary import Gemini_Summarization
 from configured_chat import ConfiguredChat
-from notebooks.topic_detection_function import detect_topics_sentiment
+from topic_detection import detect_topics_sentiment
 
 load_dotenv()  # Load environment variables from .env file
 application = Flask(__name__)
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 chat_instance = ConfiguredChat(
-    project_id="vertexai-gemini-hackathon-2024",
+    project_id="helpful-compass-425319-r7",
     model_name="gemini-1.5-pro-preview-0409",
 )
 
@@ -40,23 +40,16 @@ def summary_api():
     - int: HTTP status code (200 for success, 404 for failure).
     """
     url = request.args.get("url", "")
-    max_length = int(request.args.get("max_length", 150))
+    print(f"url: {url}\n")
     video_id = url.split("=")[1]
-    summarizer = Gemini_Summarization()
-
     try:
         transcript = get_transcript(video_id)
-        # print(f"transcript: {transcript}\n")
-    except:
-        return "No subtitles available for this video", 404
+    except CouldNotRetrieveTranscript as e:
+        return e.CAUSE_MESSAGE, 404
 
     try:
-        # final_summary, combined_summaries = summarizer.complete_summarization(
-        #     transcript, is_YU_url=False
-        # )
         sentiment_topic = detect_topics_sentiment(transcript)
-        print(f"sentiment: {sentiment_topic}\n")
-        # print(f"summary: {final_summary}\n")
+
     except Exception as e:
         print(f"Error occurred during summarization: {str(e)}")
         return "An error occurred during summarization. Please try again later.", 500
@@ -75,8 +68,8 @@ def is_transcript_english(transcript):
         language = detect(transcript)
         return language == "en"
 
-    except Exception as e:
-        return False
+    except CouldNotRetrieveTranscript as e:
+        return e.CAUSE_MESSAGE
 
 
 def get_transcript(video_id):
