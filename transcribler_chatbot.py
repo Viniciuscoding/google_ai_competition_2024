@@ -43,7 +43,7 @@ def load_chain():
     gemini_pro_model = ChatGoogleGenerativeAI(model="gemini-1.5-pro", 
                                               temperature=0.3, 
                                               max_output_tokens=256,
-                                              google_api_key="AIzaSyD2Z94fHVeEsa2wpUN0P4AIEGsm7VbX8H8"
+                                              google_api_key=""
     )
     memory = ConversationBufferMemory()
     chain = ConversationChain(llm=gemini_pro_model, memory=memory, verbose=True)
