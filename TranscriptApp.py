@@ -1,4 +1,3 @@
-# Import all the necessary dependencies
 import os
 from flask import Flask, request, jsonify
 from youtube_transcript_api import YouTubeTranscriptApi
@@ -9,24 +8,22 @@ from dotenv import load_dotenv
 from langchain.chains.conversation.base import ConversationChain
 from langchain.memory import ConversationBufferMemory
 from langchain_google_genai import ChatGoogleGenerativeAI
-from configured_chat import ConfiguredChat
 from topic_detection import detect_topics_sentiment
 
 load_dotenv()  # Load environment variables from .env file
 application = Flask(__name__)
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
-chat_instance = ConfiguredChat(
-    project_id="helpful-compass-425319-r7",
-    model_name="gemini-1.5-pro-preview-0409",
-)
-first_request = True
-chat_instance = chat_instance.model.start_chat()
+chatchain: ConversationChain = None
+first_request: bool = True
+
+
 
 @application.before_request
 def initialize_chat():
     global chatchain
     global first_request
+
     if first_request:
         chatchain = ConversationChain(
             llm=ChatGoogleGenerativeAI(
@@ -38,6 +35,7 @@ def initialize_chat():
             verboose=True
         )
         first_request = False
+        return chatchain
 
 
 @application.get("/summary")
