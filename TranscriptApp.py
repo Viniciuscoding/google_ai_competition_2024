@@ -1,11 +1,14 @@
 # Import all the necessary dependencies
 import os
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api._errors import CouldNotRetrieveTranscript
 from langdetect import detect
 import google.generativeai as genai
 from dotenv import load_dotenv
+from langchain.chains.conversation.base import ConversationChain
+from langchain.memory import ConversationBufferMemory
+from langchain_google_genai import ChatGoogleGenerativeAI
 from configured_chat import ConfiguredChat
 from topic_detection import detect_topics_sentiment
 
@@ -17,8 +20,24 @@ chat_instance = ConfiguredChat(
     project_id="helpful-compass-425319-r7",
     model_name="gemini-1.5-pro-preview-0409",
 )
-
+first_request = True
 chat_instance = chat_instance.model.start_chat()
+
+@application.before_request
+def initialize_chat():
+    global chatchain
+    global first_request
+    if first_request:
+        chatchain = ConversationChain(
+            llm=ChatGoogleGenerativeAI(
+                model_name="gemini-1.5-pro",
+                temperature=0.3,
+                max_output_tokens=256,
+            ),
+            memory=ConversationBufferMemory(),
+            verboose=True
+        )
+        first_request = False
 
 
 @application.get("/summary")
@@ -98,11 +117,13 @@ def chat():
     data = request.get_json()
     user_message = data["message"]
 
-    response = chat_instance.send_message(user_message)
-    response_text = response.text
-    print(response_text)
-    return response_text
+    response = chatchain.run(user_message)
 
+    return jsonify({"response": response})
+
+@application.route("/chat_history", methods=["GET"])
+def get_chat_history():
+    return jsonify({"history": chatchain.memory.chat_memory.messages})
 
 if __name__ == "__main__":
     application.run(debug=True)
