@@ -1,5 +1,6 @@
 */**/.env
 */**/.env.local
 */.env
+.env
 __pycache__
 extensions/__pycache__
