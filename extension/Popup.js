@@ -35,8 +35,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     var response = JSON.parse(xhr.responseText);
 
-                    var summary = response.description;
                     var topics = response.topics;
+                    var summary = response.description;
+                    var age = response.age;
+                    var fakenews = response.fakenews;
+                    var toxicity = response.toxicity;
                     var sentiments = response.sentiments;
 
                     const p = document.getElementById("output");
@@ -47,13 +50,13 @@ document.addEventListener('DOMContentLoaded', function () {
                         console.error("Output element not found");
                     }
 
-                    const topics_div = document.getElementById("topics");
+                    // const topics_div = document.getElementById("topics");
 
-                    topics_div.innerHTML = "TOPICS: " + topics;
+                    // topics_div.innerHTML = "TOPICS: " + topics;
 
-                    const sentiments_div = document.getElementById("sentiments");
-
-                    sentiments_div.innerHTML = "SENTIMENTS: " + sentiments;
+                    // const sentiments_div = document.getElementById("sentiments");
+//
+                    // sentiments_div.innerHTML = "SENTIMENTS: " + sentiments;
                     btn.disabled = false;
                     btn.innerHTML = "Summarize";
                 }
@@ -62,52 +65,52 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
     // New code for chat functionality
-    sendButton.addEventListener('click', function () {
-        const userMessage = userInput.value.trim();
-        if (userMessage !== '') {
-            sendMessage(userMessage);
-            userInput.value = '';
-        }
-    });
+    // sendButton.addEventListener('click', function () {
+    //     const userMessage = userInput.value.trim();
+    //     if (userMessage !== '') {
+    //         sendMessage(userMessage);
+    //         userInput.value = '';
+    //     }
+    // });
 
-    function sendMessage(message) {
-        // Display user's message in the conversation history
-        conversationHistory.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
+//     function sendMessage(message) {
+//         // Display user's message in the conversation history
+//         conversationHistory.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
 
-        // Send user's message to the Flask backend
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "http://127.0.0.1:5000/chat", true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                // var response = JSON.parse(xhr.responseText);
-                var response = xhr.responseText;
-                // Display the response in the conversation history
-                conversationHistory.innerHTML += `<p><strong>Assistant:</strong> ${response}</p>`;
-            } else {
-                console.log("Error:", xhr.statusText);
-            }
-        };
-        xhr.onerror = function () {
-            console.log("Error:", xhr.statusText);
-        };
-        xhr.send(JSON.stringify({ message: message }));
-    }
+//         // Send user's message to the Flask backend
+//         var xhr = new XMLHttpRequest();
+//         xhr.open("POST", "http://127.0.0.1:5000/chat", true);
+//         xhr.setRequestHeader('Content-Type', 'application/json');
+//         xhr.onload = function () {
+//             if (xhr.status === 200) {
+//                 // var response = JSON.parse(xhr.responseText);
+//                 var response = xhr.responseText;
+//                 // Display the response in the conversation history
+//                 conversationHistory.innerHTML += `<p><strong>Assistant:</strong> ${response}</p>`;
+//             } else {
+//                 console.log("Error:", xhr.statusText);
+//             }
+//         };
+//         xhr.onerror = function () {
+//             console.log("Error:", xhr.statusText);
+//         };
+//         xhr.send(JSON.stringify({ message: message }));
+//     }
 
-});
+// });
 
-function openTab(evt, tabName) {
-        var i, tabcontent, tablinks;
-        tabcontent = document.getElementsByClassName("tabcontent");
-        for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
-        }
-        tablinks = document.getElementsByClassName("tablinks");
-        for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" active", "");
-        }
-        document.getElementById(tabName).style.display = "block";
-        evt.currentTarget.className += " active";
-    }
+// function openTab(evt, tabName) {
+//         var i, tabcontent, tablinks;
+//         tabcontent = document.getElementsByClassName("tabcontent");
+//         for (i = 0; i < tabcontent.length; i++) {
+//             tabcontent[i].style.display = "none";
+//         }
+//         tablinks = document.getElementsByClassName("tablinks");
+//         for (i = 0; i < tablinks.length; i++) {
+//             tablinks[i].className = tablinks[i].className.replace(" active", "");
+//         }
+//         document.getElementById(tabName).style.display = "block";
+//         evt.currentTarget.className += " active";
+//     }
 
 document.getElementById("defaultOpen").click();
