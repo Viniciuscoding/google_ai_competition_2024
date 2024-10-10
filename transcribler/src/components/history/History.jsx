@@ -1,12 +1,13 @@
 
 // import React, {useState, useEffect} from 'react';
 
-function Home() {
+
+function History() {
   return (
     <div>
-      Hello
+      History
     </div>
   );
 }
 
-export default Home;
+export default History;

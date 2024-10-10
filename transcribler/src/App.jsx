@@ -1,24 +1,33 @@
 // import { useState } from 'react'
-import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 /* component routes */ 
-import Home from './components/Home';
+import Header from './components/Header';
+import History from './components/history/History';
+import Summary from './components/summary/Summary';
+import Chat from './components/chat/Chat';
+
+/* mui */
+import Grid from '@mui/material/Grid2';
 
 function App() {
   return (
-    <>
-      <main>
-        <BrowserRouter>
-          <Routes>
-            <Route>
-              <Route path="/" element={<Home />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </main>
-    </>
-  )
+    <BrowserRouter>
+      <Grid
+        container
+        direction="column"
+        alignItems="center"
+      >
+        <Header />
+        <Routes>
+          <Route path="/" element={<Chat />} />
+          <Route path="/history" element={<History />} />
+          <Route path="/summary" element={<Summary />} />
+          <Route path="/chat" element={<Chat />} />
+        </Routes>
+      </Grid>
+    </BrowserRouter>
+  );
 }
 
 export default App
