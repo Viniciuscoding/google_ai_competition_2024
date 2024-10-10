@@ -1,8 +1,7 @@
-// import { useState } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 /* component routes */ 
-import Header from './components/Header';
+import Header from './components/header/Header';
 import History from './components/history/History';
 import Summary from './components/summary/Summary';
 import Chat from './components/chat/Chat';
