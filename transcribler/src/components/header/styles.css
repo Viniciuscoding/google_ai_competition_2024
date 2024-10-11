@@ -1,5 +1,5 @@
 .navlink {
-  color: black;
-  text-decoration: none;
-  font-weight:bold;
+  color: black !important;
+  text-decoration: none !important;
+  font-weight:bold !important;
 }

@@ -11,7 +11,7 @@ import Link from '@mui/material/Link';
 // import SummarizeIcon from '@mui/icons-material/Summarize';
 
 function Header() {
-  const [isSummary, setIsSummary] = useState(true);
+  const [isSummary, setIsSummary] = useState(false);
   return (
     <Grid
       container
@@ -20,12 +20,12 @@ function Header() {
       spacing={4}
     > 
       <Grid display="flex" justifyContent="center"  size={2}>
-        <Link component={NavLink} to='/history' className="navlink" onClick={()=>setIsSummary(true)}>
+        <Link component={NavLink} to='/history' className="navlink">
           History
         </Link>
       </Grid>
       <Grid display="flex" justifyContent="center"  size={8}>
-        <Link component={NavLink} to='/'>
+        <Link component={NavLink} to='/' onClick={()=>setIsSummary(false)}>
           <img src="/imgs/Logo1_35x103.png" alt="img"/>
         </Link>
       </Grid>

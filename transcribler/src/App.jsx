@@ -19,7 +19,7 @@ function App() {
       >
         <Header />
         <Routes>
-          <Route path="/" element={<Chat />} />
+          <Route path="/" element={<Summary />} />
           <Route path="/history" element={<History />} />
           <Route path="/summary" element={<Summary />} />
           <Route path="/chat" element={<Chat />} />

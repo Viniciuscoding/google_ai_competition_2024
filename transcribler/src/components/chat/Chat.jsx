@@ -1,11 +1,17 @@
 
 // import React, {useState, useEffect} from 'react';
+import Box from '@mui/material/Box';
+
+import './styles.css'
+import YourFooterComponent from './YourFooterComponent'
 
 function Chat() {
   return (
-    <div>
-      Chat Page
-    </div>
+    <>
+      <Box> 
+        <YourFooterComponent/>
+      </Box>
+    </>
   );
 }
 
