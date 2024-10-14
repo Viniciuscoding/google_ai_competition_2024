@@ -3,13 +3,13 @@
 import Box from '@mui/material/Box';
 
 import './styles.css'
-import YourFooterComponent from './YourFooterComponent'
+import ChatInput from './ChatInput'
 
 function Chat() {
   return (
     <>
       <Box> 
-        <YourFooterComponent/>
+        <ChatInput/>
       </Box>
     </>
   );
