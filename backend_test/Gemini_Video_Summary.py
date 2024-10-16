@@ -6,8 +6,8 @@ from langchain.chains.llm import LLMChain
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 from langchain_google_genai import ChatGoogleGenerativeAI
-from notebooks.transcribe_translate import TranscribeTranslate
-import Youtube_transcript
+# from notebooks.transcribe_translate import TranscribeTranslate
+# import Youtube_transcript
 
 # NOTE: The os.environ["GOOGLE_API_KEY"] will need to be populated for the following code to run
 # Load the .env file

@@ -70,24 +70,24 @@ GEMINI_SAFETY_SETTINGS = [
 ]
 # aiplatform.init(project="google-ai-competition")
 # vertexai.init(project="google-ai-competition")
-aiplatform.init(project="helpful-compass-425319-r7")
-vertexai.init(project="helpful-compass-425319-r7")
+# aiplatform.init(project="helpful-compass-425319-r7")
+# vertexai.init(project="helpful-compass-425319-r7")
 
-vertexai.preview.init()
-class VideoTopicExtraction(BaseModel):
-    '''An Extraction of Key Features from an input video JSON'''
-    description: str = Field(description="A 1000 token description of the contents of the video")
-    key_topics: List[str] = Field(description="A collection of key topics.")
-    sentiments: List[str] = Field(description="A collection of key sentiments expressed in the video")
-    emotions: List[str] = Field(description="A collection of key emotions expressed in the video")
-    people: List[str] = Field(description="A list of all people mentioned or featuring in the video")
-    locations: List[str] = Field(description="A list of all locations and landmarks referred or appearing  in the video")
-    age_appropriateness: str = Field(description="Age groups of audience the video is appropriate for")
-    movie_content_warnings: List[str] = Field(description="a collection of all content warnings applicable to the video")
-    languages: List[str] = Field(description="A list of all languages spoken in the video")
-    main_language: List[str] = Field(description="A the main language of the video")
+# vertexai.preview.init()
+# class VideoTopicExtraction(BaseModel):
+#     '''An Extraction of Key Features from an input video JSON'''
+#     description: str = Field(description="A 1000 token description of the contents of the video")
+#     key_topics: List[str] = Field(description="A collection of key topics.")
+#     sentiments: List[str] = Field(description="A collection of key sentiments expressed in the video")
+#     emotions: List[str] = Field(description="A collection of key emotions expressed in the video")
+#     people: List[str] = Field(description="A list of all people mentioned or featuring in the video")
+#     locations: List[str] = Field(description="A list of all locations and landmarks referred or appearing  in the video")
+#     age_appropriateness: str = Field(description="Age groups of audience the video is appropriate for")
+#     movie_content_warnings: List[str] = Field(description="a collection of all content warnings applicable to the video")
+#     languages: List[str] = Field(description="A list of all languages spoken in the video")
+#     main_language: List[str] = Field(description="A the main language of the video")
 
-dict_schema = convert_to_openai_function(VideoTopicExtraction)
+# dict_schema = convert_to_openai_function(VideoTopicExtraction)
 def detect_topics_sentiment(transcript_text):
     """
     Detects topics in the given text using ChatVertexAI.
@@ -126,7 +126,7 @@ def detect_topics_sentiment(transcript_text):
     return response_text
 
 
-if __name__ == '__main__':
-    transcript_text = ""
-    topics_sentiment = detect_topics_sentiment(transcript_text)
-    print(topics_sentiment)
+# if __name__ == '__main__':
+#     transcript_text = ""
+#     topics_sentiment = detect_topics_sentiment(transcript_text)
+#     print(topics_sentiment)

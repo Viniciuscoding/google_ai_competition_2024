@@ -74,12 +74,12 @@ GEMINI_SAFETY_SETTINGS = [
     "threshold": "BLOCK_NONE"
   },
 ]
-aiplatform.init(project="helpful-compass-425319-r7")
-vertexai.init(project="helpful-compass-425319-r7")
-vertexai.preview.init()
-DEFAULT_VIDEOS_BUCKET="youtube_videos_1"
-DEFAULT_GEMINI_BATCH_SIZE=10
-#increases 2x after each rate limit error encountered during inference calls
-DEFAULT_BATCH_PROCESSING_DELAY=30#seconds
-GEMINI_1_5_PRO_SUPPORTED_AUDIO_MIME_TYPES=["audio/wav", "audio/mp3", "audio/aiff", "audio/aac", "audio/ogg", "audio/flac"]
-GEMINI_1_5_PRO_SUPPORTED_AUDIO_FORMATS = ["wav", "mp3", "aiff", "aac", "ogg", "flac"]
+# aiplatform.init(project="helpful-compass-425319-r7")
+# vertexai.init(project="helpful-compass-425319-r7")
+# vertexai.preview.init()
+# DEFAULT_VIDEOS_BUCKET="youtube_videos_1"
+# DEFAULT_GEMINI_BATCH_SIZE=10
+# #increases 2x after each rate limit error encountered during inference calls
+# DEFAULT_BATCH_PROCESSING_DELAY=30#seconds
+# GEMINI_1_5_PRO_SUPPORTED_AUDIO_MIME_TYPES=["audio/wav", "audio/mp3", "audio/aiff", "audio/aac", "audio/ogg", "audio/flac"]
+# GEMINI_1_5_PRO_SUPPORTED_AUDIO_FORMATS = ["wav", "mp3", "aiff", "aac", "ogg", "flac"]
