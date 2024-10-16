@@ -4,3 +4,5 @@
 .env
 __pycache__
 extensions/__pycache__
+/transcribler/node_modules
+/transcribler/package-lock.json
