@@ -1,16 +1,15 @@
-
-// import React, {useState, useEffect} from 'react';
-import Box from '@mui/material/Box';
+import {useState} from 'react';
 
 import './styles.css'
 import ChatInput from './ChatInput'
+import ChatLog from './ChatLog'
 
 function Chat() {
+  const [message, setMessage] = useState("");
   return (
     <>
-      <Box> 
-        <ChatInput/>
-      </Box>
+      <ChatLog sendMessage={message}/>
+      <ChatInput retrieveMessage={(e) => setMessage(e)}/>
     </>
   );
 }
