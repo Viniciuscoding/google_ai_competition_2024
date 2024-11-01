@@ -1,0 +1,19 @@
+{
+  "name": "transcribler-backend",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Viniciuscoding/google_ai_competition_2024.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Viniciuscoding/google_ai_competition_2024/issues"
+  },
+  "homepage": "https://github.com/Viniciuscoding/google_ai_competition_2024#readme",
+  "description": ""
+}
