@@ -7,3 +7,4 @@ extensions/__pycache__
 /transcribler/node_modules
 /transcribler/package-lock.json
 transcribler/package-lock.json
+/transcribler-backend/node_modules

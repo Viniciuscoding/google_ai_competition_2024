@@ -11,13 +11,13 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 
 # NOTE: The os.environ["GOOGLE_API_KEY"] will need to be populated for the following code to run
 # Load the .env file
-load_dotenv('C:\\Users\\vinid\\google_competition\\geminihackathon24\\.env')
+load_dotenv('C:\\Users\\ron\\Documents\\GitHub\\google_ai_competition_2024\\backend_test\\.env')
 # Accessing the environment variables
 GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
 
 class Gemini_Summarization:
     def __init__(self, chunk_size=5000):
-        self.llm = ChatGoogleGenerativeAI(model="gemini-pro")
+        self.llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash")
         self.chunk_size = chunk_size
 
         self.template_split = """
