@@ -7,10 +7,10 @@ import Typography from '@mui/material/Typography';
 import "./styles.css"
 
 
-function AgeRating() {
+function Summarization() {
   return (
     <>
-      <Typography variant="h6">Age Rating</Typography>
+      <Typography variant="h6">Summarization</Typography>
       <Paper
         elevation={0}
         sx={{
@@ -24,4 +24,4 @@ function AgeRating() {
   );
 }
 
-export default AgeRating;
+export default Summarization;

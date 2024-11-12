@@ -18,6 +18,7 @@
   "description": "",
   "type": "module",
   "dependencies": {
-    "express": "^4.21.1"
+    "express": "^4.21.1",
+    "python-shell": "^5.0.0"
   }
 }

@@ -15,13 +15,12 @@ function App() {
       <Grid
         container
         direction="column"
-        alignItems="center"
+        // alignItems="center"
       >
         <Header />
         <Routes>
           <Route path="/" element={<Summary />} />
           <Route path="/history" element={<History />} />
-          <Route path="/summary" element={<Summary />} />
           <Route path="/chat" element={<Chat />} />
         </Routes>
       </Grid>

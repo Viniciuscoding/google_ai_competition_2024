@@ -5,7 +5,6 @@ import summary from '../data/summary.js';
 router.get('/', async(req,res) => {
   try {
     const test = await summary.test();
-    console.log(test)
     return res.status(200).json(test);
   } catch (error) {
     console.error("Error fetching summary:", error);

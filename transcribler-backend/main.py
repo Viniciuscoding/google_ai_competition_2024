@@ -10,6 +10,8 @@ from topic_detection_function_vin import detect_topics_sentiment
 from Vin_Gemini_Video_Summary import Transcription
 from configs import VIN_SUMMARY_PROMPT, VIN_TOPIC, VIN_SENTIMENT_ANALYSIS
 
+import datetime
+
 # Load the .env file
 load_dotenv('C:\\Users\\ron\\Documents\\GitHub\\google_ai_competition_2024\\backend_test\\.env')
 # Accessing the environment variables
@@ -45,7 +47,7 @@ def get_transcript(video_id):
     transcript = " ".join([d["text"] for d in transcript_list])
     return transcript
 
-def __main():
+def main():
   transcript = get_transcript(video_id)
 
   final_summary = summarizer.generate_response(transcript, VIN_SUMMARY_PROMPT, GEMINI_API_KEY)
@@ -57,9 +59,9 @@ def __main():
   # print(Markdown(topics))
 
   sentiment = summarizer.generate_response(transcript, VIN_SENTIMENT_ANALYSIS, GEMINI_API_KEY)
-
   # print(Markdown(sentiment))
   return [final_summary, topics, sentiment]
 
-print(__main())
-__main()
+if __name__ == "__main__":
+    # Code here will only run when the script is executed directly, not when imported
+    main()
