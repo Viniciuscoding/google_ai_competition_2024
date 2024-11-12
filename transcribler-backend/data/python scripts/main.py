@@ -1,4 +1,5 @@
 import os
+import json
 from flask import Flask, request, jsonify
 from youtube_transcript_api import YouTubeTranscriptApi
 from langdetect import detect
@@ -11,7 +12,7 @@ from Vin_Gemini_Video_Summary import Transcription
 from configs import VIN_SUMMARY_PROMPT, VIN_TOPIC, VIN_SENTIMENT_ANALYSIS
 
 # Load the .env file
-load_dotenv('C:\\Users\\ron\\Documents\\GitHub\\google_ai_competition_2024\\backend_test\\.env')
+load_dotenv('/Users/lohithmaralla/ChromeExtension/google_ai_competition_2024/backend_test/.env')
 # Accessing the environment variables
 GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
 GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
@@ -45,21 +46,36 @@ def get_transcript(video_id):
     transcript = " ".join([d["text"] for d in transcript_list])
     return transcript
 
+def parse_sentiment(sentiment):
+    data = {}
+    lines = sentiment.strip().split("\n")
+
+    for line in lines:
+        if "**" in line:
+            key = line.split("**")[1].strip(":") 
+            value = line.split(":**")[1].strip() 
+            data[key] = value
+    return data
+
 def __main():
-  transcript = get_transcript(video_id)
+    transcript = get_transcript(video_id)
 
-  final_summary = summarizer.generate_response(transcript, VIN_SUMMARY_PROMPT, GEMINI_API_KEY)
+    final_summary = summarizer.generate_response(transcript, VIN_SUMMARY_PROMPT, GEMINI_API_KEY)
 
-  # print(final_summary)
+    # print(final_summary)
 
-  topics = summarizer.generate_response(transcript, VIN_TOPIC, GEMINI_API_KEY)
+    topics = summarizer.generate_response(transcript, VIN_TOPIC, GEMINI_API_KEY)
 
-  # print(Markdown(topics))
+    # print(Markdown(topics))
 
-  sentiment = summarizer.generate_response(transcript, VIN_SENTIMENT_ANALYSIS, GEMINI_API_KEY)
+    sentiment = summarizer.generate_response(transcript, VIN_SENTIMENT_ANALYSIS, GEMINI_API_KEY)
+    
+    data = parse_sentiment(sentiment)
+    data["final summary"] = final_summary
+    data["topics"] = topics
+    json_data = json.dumps(data, indent=4)
 
-  # print(Markdown(sentiment))
-  return [final_summary, topics, sentiment]
+    return json_data
 
 print(__main())
 __main()
