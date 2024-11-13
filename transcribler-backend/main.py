@@ -1,4 +1,5 @@
 import os
+import json
 from flask import Flask, request, jsonify
 from youtube_transcript_api import YouTubeTranscriptApi
 from langdetect import detect
@@ -10,17 +11,29 @@ from topic_detection_function_vin import detect_topics_sentiment
 from Vin_Gemini_Video_Summary import Transcription
 from configs import VIN_SUMMARY_PROMPT, VIN_TOPIC, VIN_SENTIMENT_ANALYSIS
 
-import datetime
-
 # Load the .env file
-load_dotenv('C:\\Users\\ron\\Documents\\GitHub\\google_ai_competition_2024\\backend_test\\.env')
+load_dotenv('C:\\Users\\ron\\Documents\\GitHub\\google_ai_competition_2024\\transcribler-backend\\.env')
 # Accessing the environment variables
 GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
 GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
 
 from IPython.display import Markdown
 
-url = "https://www.youtube.com/watch?v=5LGEiIL1__s"
+url = "https://www.youtube.com/watch?v=Dd7FixvoKBw"
+
+import requests
+from bs4 import BeautifulSoup
+
+# Extracting HTML Code of the Video Page:
+response = requests.get(url)
+html_content = response.text
+
+# Processing the HTML Code with BeautifulSoup
+soup = BeautifulSoup(html_content, 'html.parser')
+
+# Extracting <title> tag's content
+title_tag = soup.find('meta', property='og:title')
+video_title = title_tag['content'] if title_tag else 'Title not found'
 
 video_id = url.split("=")[1]
 summarizer = Gemini_Summarization
@@ -47,20 +60,39 @@ def get_transcript(video_id):
     transcript = " ".join([d["text"] for d in transcript_list])
     return transcript
 
+def parse_sentiment(sentiment):
+    data = {}
+    lines = sentiment.strip().split("\n")
+
+    for line in lines:
+        if "**" in line:
+            key = line.split("**")[1].strip(":") 
+            value = line.split(":**")[1].strip() 
+            data[key] = value
+    return data
+
 def main():
-  transcript = get_transcript(video_id)
+    transcript = get_transcript(video_id)
 
-  final_summary = summarizer.generate_response(transcript, VIN_SUMMARY_PROMPT, GEMINI_API_KEY)
+    final_summary = summarizer.generate_response(transcript, VIN_SUMMARY_PROMPT, GEMINI_API_KEY)
 
-  # print(final_summary)
+    # print(final_summary)
 
-  topics = summarizer.generate_response(transcript, VIN_TOPIC, GEMINI_API_KEY)
+    topics = summarizer.generate_response(transcript, VIN_TOPIC, GEMINI_API_KEY)
 
-  # print(Markdown(topics))
+    # print(Markdown(topics))
 
-  sentiment = summarizer.generate_response(transcript, VIN_SENTIMENT_ANALYSIS, GEMINI_API_KEY)
-  # print(Markdown(sentiment))
-  return [final_summary, topics, sentiment]
+    sentiment = summarizer.generate_response(transcript, VIN_SENTIMENT_ANALYSIS, GEMINI_API_KEY)
+    
+    data = parse_sentiment(sentiment)
+    data["final summary"] = final_summary
+    data["topics"] = topics
+    data["title"] = video_title
+    json_data = json.dumps(data, indent=4)
+    print(sentiment)
+    print(data)
+    print(json_data)
+    return json_data
 
 if __name__ == "__main__":
     # Code here will only run when the script is executed directly, not when imported

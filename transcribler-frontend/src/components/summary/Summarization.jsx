@@ -1,13 +1,13 @@
-
-// import React from 'react';
-
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 
-import "./styles.css"
+import "./styles.css";
 
+import { marked } from 'marked';
 
-function Summarization() {
+function Summarization(props) {
+  const htmlContent = marked(props.details);
+
   return (
     <>
       <Typography variant="h6">Summarization</Typography>
@@ -18,7 +18,7 @@ function Summarization() {
           padding: "1rem"
         }}
       >
-        Placeholder
+        <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
       </Paper>
     </>
   );

@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import "./styles.css"
 
 
-function FakeNews() {
+function FakeNews(props) {
   return (
     <>
       <Typography variant="h6">Fake News</Typography>
@@ -18,7 +18,7 @@ function FakeNews() {
           padding: "1rem"
         }}
       >
-        Placeholder
+        {props.details}
       </Paper>
     </>
   );

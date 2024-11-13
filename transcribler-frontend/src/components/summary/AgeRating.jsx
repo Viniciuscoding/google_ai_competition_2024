@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import "./styles.css"
 
 
-function AgeRating() {
+function AgeRating(props) {
   return (
     <>
       <Typography variant="h6">Age Rating</Typography>
@@ -18,7 +18,7 @@ function AgeRating() {
           padding: "1rem"
         }}
       >
-        Placeholder
+        {props.details}
       </Paper>
     </>
   );

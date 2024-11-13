@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-
 import { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid2';
 import Paper from '@mui/material/Paper';
@@ -11,7 +9,7 @@ function ChatLog(props) {
 
   useEffect(() => {
     if (props.sendMessage) {
-      console.log(props.sendMessage)
+      console.log(props.sendMessage);
       setLog((prevLog) => [...prevLog, props.sendMessage]);
     }
   }, [props.sendMessage]);
@@ -24,22 +22,37 @@ function ChatLog(props) {
           item
           display="flex"
           justifyContent={message.sender === 'User' ? 'flex-end' : 'flex-start'}
+          alignItems="center" // Centering content vertically
         >
-          <div>test</div>
+          {message.sender === 'User' ? <></> : 
+            <img
+              src="/imgs/Human01_icon_25x25.svg"
+              style={{ marginRight: '10px', width: '25px', height: '25px', alignSelf: 'center' }}
+              alt="user icon"
+            />
+          }
           <Paper
             elevation={0}
             sx={{
               maxWidth: '25rem',
               padding: '8px',
-              marginBottom: '8px',
               backgroundColor: message.sender === 'User' ? '#e3f2fd' : '#f1f1f1',
               borderRadius: '8px',
               textAlign: 'left',
-              width: 'fit-content', 
+              width: 'fit-content',
             }}
           >
-            {message.sender}: {message.message}
+            {message.message}
           </Paper>
+          {message.sender === 'User' ? (
+            <img
+              src="/imgs/Human02_icon_25x25.svg"
+              style={{ marginLeft: '10px', width: '25px', height: '25px', alignSelf: 'center' }}
+              alt="user icon"
+            />
+          ) : (
+            <></>
+          )}
         </Grid>
       ))}
     </Grid>

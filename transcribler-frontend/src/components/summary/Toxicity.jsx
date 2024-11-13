@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import "./styles.css"
 
 
-function Toxicity() {
+function Toxicity(props) {
   return (
     <>
       <Typography variant="h6">Toxicity</Typography>
@@ -18,7 +18,7 @@ function Toxicity() {
           padding: "1rem"
         }}
       >
-        Placeholder
+        {props.details}
       </Paper>
     </>
   );

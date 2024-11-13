@@ -6,7 +6,7 @@ import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid2';
 import Link from '@mui/material/Link';
 
-function Header() {
+function Header(props) {
   const location = useLocation();
 
   return (
@@ -29,7 +29,7 @@ function Header() {
         mb={2}
       >
         <Grid item>
-          Video Summary Title
+          {props.title}
         </Grid>
       </Grid>
       <Divider/>

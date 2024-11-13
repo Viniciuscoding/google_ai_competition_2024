@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import "./styles.css"
 
 
-function SentimentAnalysis() {
+function SentimentAnalysis(props) {
   return (
     <>
       <Typography variant="h6">Sentiment Analysis</Typography>
@@ -18,7 +18,7 @@ function SentimentAnalysis() {
           padding: "1rem"
         }}
       >
-        Placeholder
+        {props.details}
       </Paper>
     </>
   );
