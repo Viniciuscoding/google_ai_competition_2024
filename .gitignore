@@ -8,3 +8,4 @@ extensions/__pycache__
 /transcribler/package-lock.json
 transcribler/package-lock.json
 /transcribler-backend/node_modules
+/transcribler-frontend/.vite
