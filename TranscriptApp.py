@@ -40,7 +40,7 @@ def summary_api():
     - int: HTTP status code (200 for success, 404 for failure).
     """
     url = request.args.get("url", "")
-    print(f"url: {url}\n")
+    #print(f"url: {url}\n")
     video_id = url.split("=")[1]
     try:
         transcript = get_transcript(video_id)
@@ -51,7 +51,7 @@ def summary_api():
         sentiment_topic = detect_topics_sentiment(transcript)
 
     except Exception as e:
-        print(f"Error occurred during summarization: {str(e)}")
+       # print(f"Error occurred during summarization: {str(e)}")
         return "An error occurred during summarization. Please try again later.", 500
 
     return sentiment_topic, 200

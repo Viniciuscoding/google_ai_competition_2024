@@ -2,7 +2,7 @@ import { spawn } from 'child_process';
 
 const test = () => {
   return new Promise((resolve, reject) => {
-    const pythonProcess = spawn('python', ['./data/python scripts/main.py', 'Node.js']);
+    const pythonProcess = spawn('python3', ['./data/python scripts/main.py', 'Node.js']);
 
     let output = '';
     pythonProcess.stdout.on('data', (data) => {

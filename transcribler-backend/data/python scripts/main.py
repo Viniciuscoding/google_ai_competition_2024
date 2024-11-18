@@ -19,7 +19,7 @@ GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
 
 from IPython.display import Markdown
 
-url = "https://www.youtube.com/watch?v=5LGEiIL1__s"
+url = "https://www.youtube.com/watch?v=Dd7FixvoKBw"
 
 video_id = url.split("=")[1]
 summarizer = Gemini_Summarization
@@ -48,14 +48,27 @@ def get_transcript(video_id):
 
 def parse_sentiment(sentiment):
     data = {}
-    lines = sentiment.strip().split("\n")
+    current_key = None
+    current_value = []
 
+    lines = sentiment.strip().split("\n")
+    
     for line in lines:
-        if "**" in line:
-            key = line.split("**")[1].strip(":") 
-            value = line.split(":**")[1].strip() 
-            data[key] = value
+        if "**" in line:  
+            if current_key:  
+                data[current_key] = "\n".join(current_value).strip()
+            key = line.split("**")[1].strip(":")
+            value = line.split(":**")[1].strip()
+            current_key = key
+            current_value = [value]
+        elif current_key:  
+            current_value.append(line.strip())
+    
+    if current_key:
+        data[current_key] = "\n".join(current_value).strip()
+    
     return data
+
 
 def __main():
     transcript = get_transcript(video_id)
@@ -69,13 +82,12 @@ def __main():
     # print(Markdown(topics))
 
     sentiment = summarizer.generate_response(transcript, VIN_SENTIMENT_ANALYSIS, GEMINI_API_KEY)
-    
     data = parse_sentiment(sentiment)
-    data["final summary"] = final_summary
+    data["final summary"] = final_summary 
     data["topics"] = topics
     json_data = json.dumps(data, indent=4)
 
     return json_data
 
-print(__main())
+#print(__main())
 __main()

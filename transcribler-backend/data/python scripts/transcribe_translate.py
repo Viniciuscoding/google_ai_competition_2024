@@ -21,7 +21,7 @@ class TranscribeTranslate():
         return input_string
 
     def video_transcript_list(self,video_id):
-        print(video_id)
+        #print(video_id)
         transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
         return transcript_list
 

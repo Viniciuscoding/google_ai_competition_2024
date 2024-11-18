@@ -63,9 +63,9 @@ GEMINI_SAFETY_SETTINGS = [
     "threshold": "BLOCK_NONE"
   },
 ]
-aiplatform.init(project="helpful-compass-425319-r7")
-vertexai.init(project="helpful-compass-425319-r7")
-vertexai.preview.init()
+#aiplatform.init(project="helpful-compass-425319-r7")
+# vertexai.init(project="helpful-compass-425319-r7")
+# vertexai.preview.init()
 class VideoTopicExtraction(BaseModel):
     '''An Extraction of Key Features from an input video JSON'''
     description: str = Field(description="A 1000 token description of the contents of the video")
@@ -109,4 +109,4 @@ def detect_topics_sentiment(transcript_text):
 if __name__ == '__main__':
     transcript_text = ""
     topics_sentiment = detect_topics_sentiment(transcript_text)
-    print(topics_sentiment)
+    
