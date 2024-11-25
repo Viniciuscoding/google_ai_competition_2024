@@ -1,6 +1,3 @@
-import re
-import os
-from dotenv import load_dotenv
 from youtube_transcript_api import YouTubeTranscriptApi
 
 class Transcription:

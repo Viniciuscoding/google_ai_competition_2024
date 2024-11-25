@@ -1,8 +1,5 @@
 import os
 from dotenv import load_dotenv
-from google.cloud import aiplatform
-import google.generativeai as genai
-import vertexai
 
 # Load the .env file
 load_dotenv('C:\\Users\\vinid\\google_competition\\geminihackathon24\\.env')

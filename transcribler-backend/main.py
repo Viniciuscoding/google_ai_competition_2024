@@ -19,7 +19,7 @@ GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
 
 from IPython.display import Markdown
 
-url = "https://www.youtube.com/watch?v=Dd7FixvoKBw"
+url = "https://www.youtube.com/watch?v=6COmYeLsz4c"
 
 import requests
 from bs4 import BeautifulSoup
