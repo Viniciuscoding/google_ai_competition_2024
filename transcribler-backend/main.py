@@ -6,7 +6,6 @@ from langdetect import detect
 import google.generativeai as genai
 from dotenv import load_dotenv
 from Gemini_Video_Summary import Gemini_Summarization
-from configured_chat import ConfiguredChat
 from topic_detection_function_vin import detect_topics_sentiment
 from Vin_Gemini_Video_Summary import Transcription
 from configs import VIN_SUMMARY_PROMPT, VIN_TOPIC, VIN_SENTIMENT_ANALYSIS
