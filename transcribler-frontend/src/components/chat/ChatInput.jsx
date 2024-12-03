@@ -1,5 +1,6 @@
-/* eslint-disable react/prop-types */
 import { useState } from "react";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
 import Box from '@mui/material/Box';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -16,38 +17,48 @@ function ChatInput({ retrieveMessage, data }) {
     setInputValue(event.target.value);
   };
 
-  // Hardcoded YouTube URL for testing
   const videoUrl = data.url;
+
+  const [geminiKey] = useState(import.meta.env.VITE_GEMINI_API_KEY);
+  const [genAI] = useState(new GoogleGenerativeAI(geminiKey));
+  const [model] = useState(genAI.getGenerativeModel({ model: "gemini-pro"}));
 
   const testBot = async () => {
     if (inputValue.trim()) {
-      retrieveMessage({ sender: "User", message: inputValue });
-      setInputValue('');
-
-      try {
-        const response = await fetch('http://localhost:5000/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            message: inputValue,
-            video_url: videoUrl,
-          }),
-        });
-
-        if (response.ok) {
-          const responseData = await response.json();
-          retrieveMessage({ sender: "Gemini", message: responseData.response });
-        } else {
-          retrieveMessage({ sender: "Gemini", message: "Error: Unable to get a response." });
-        }
-      } catch (error) {
-        console.error("Error communicating with the backend:", error);
-        retrieveMessage({ sender: "Gemini", message: "Sorry, something went wrong." });
-      }
+      retrieveMessage({sender: "User", message: inputValue}); 
+      setInputValue(''); 
+      const response = await sendMessage(inputValue);
+      retrieveMessage({sender: "Gemini", message: response});
     } else {
       console.log("No message to send");
     }
   };
+
+  const sendMessage = async (msg) => {
+    const chat = model.startChat({
+      history: [
+        {
+          role: "user",
+          parts: [{ text: "You are a chat bot named Transcribler. Introduce yourself as such whenever you are greeted. You specialize in transcribing, summarizing, providing age and toxicity ratings, and providing sentiment analysis on YouTube videos. This is your sole function. Keep your responses brief and concise, don't just restate data provided to you. The following is data on the video you were given to analyze:" + JSON.stringify(data) }], 
+        },
+        {
+          role: "model",
+          parts: [{ text: "Great to meet you. What would you like to know?" }], 
+        },
+      ],
+      generationConfig: {
+        maxOutputTokens: 100,
+      },
+    });
+
+    const result = await chat.sendMessage(msg);
+    const response = await result.response;
+    let text = response.text();
+    text = `
+      ${text}
+    `
+    return text
+  }
 
   return (
     <Box
@@ -62,6 +73,7 @@ function ChatInput({ retrieveMessage, data }) {
         alignItems: 'center',
         padding: '8px',
         backgroundColor: '#fff',
+        zIndex: 10
       }}
       component="footer"
     >
