@@ -23,21 +23,6 @@ url = "https://www.youtube.com/watch?v=6COmYeLsz4c"
 import requests
 from bs4 import BeautifulSoup
 
-# Extracting HTML Code of the Video Page:
-response = requests.get(url)
-html_content = response.text
-
-# Processing the HTML Code with BeautifulSoup
-soup = BeautifulSoup(html_content, 'html.parser')
-
-# Extracting <title> tag's content
-title_tag = soup.find('meta', property='og:title')
-video_title = title_tag['content'] if title_tag else 'Title not found'
-
-video_id = url.split("=")[1]
-summarizer = Gemini_Summarization
-video_id
-
 def get_transcript(video_id):
     """
     Fetches and concatenates the transcript of a YouTube video.
@@ -70,7 +55,23 @@ def parse_sentiment(sentiment):
             data[key] = value
     return data
 
-def main():
+def main(url):
+    print(url)
+    # Extracting HTML Code of the Video Page:
+    response = requests.get(url)
+    html_content = response.text
+
+    # Processing the HTML Code with BeautifulSoup
+    soup = BeautifulSoup(html_content, 'html.parser')
+
+    # Extracting <title> tag's content
+    title_tag = soup.find('meta', property='og:title')
+    video_title = title_tag['content'] if title_tag else 'Title not found'
+
+    video_id = url.split("=")[1]
+    summarizer = Gemini_Summarization
+    video_id
+
     transcript = get_transcript(video_id)
 
     final_summary = summarizer.generate_response(transcript, VIN_SUMMARY_PROMPT, GEMINI_API_KEY)

@@ -1,56 +1,46 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { HashRouter, Route, Routes } from 'react-router-dom';
 
 /* component routes */
-import Header from './components/header/Header';
+import Home from './components/home/Home';
+// import Header from './components/header/Header';
 import History from './components/history/History';
 import Summary from './components/summary/Summary';
 import Chat from './components/chat/Chat';
 
 /* mui */
 import Grid from '@mui/material/Grid2';
-import axios from 'axios';
 
 function App() {
-  const [data, setData] = useState(null);
+  const [url, setUrl] = useState("");
 
   useEffect(() => {
-    const abortController = new AbortController();
-
-    const fetchData = async () => {
-      try {
-        console.log("getting prof data");
-        const response = await axios.get(`http://35.222.208.59:5000`, {
-          signal: abortController.signal,
-        });
-        setData(response.data);
-      } catch (e) {
-        if (e.name !== 'AbortError') {
-          console.error("response failed", e);
+    // Send a message to the background script
+    chrome.runtime.sendMessage(
+      { type: "GET_ACTIVE_TAB_URL" },
+      (response) => {
+        if (response?.url) {
+          setUrl(response.url);
+        } else {
+          setUrl("");
         }
       }
-    };
-
-    fetchData();
-
-    return () => {
-      abortController.abort(); 
-    };
-  }, []); 
-
-  console.log(data)
+    );
+  }, []);
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Grid container direction="column">
-        {data ? <Header title={data.title}/> : <></>}
+        {/* {data ? <Header title={data.title}/> : <></>} */}
         <Routes>
-          <Route path="/" element={<Summary data={data} />} />
+          <Route path="/" element={<Home url={url}/>} />
+          <Route path="/summary" element={<Summary />} />
           <Route path="/history" element={<History />} />
           <Route path="/chat" element={<Chat />} />
+          <Route path="*" element={<Home url={url}/>} /> 
         </Routes>
       </Grid>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 

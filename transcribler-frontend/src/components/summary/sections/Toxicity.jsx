@@ -4,7 +4,7 @@
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 
-import "./styles.css"
+import "../styles.css"
 
 
 function Toxicity(props) {

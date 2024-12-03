@@ -4,13 +4,13 @@
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 
-import "./styles.css"
+import "../styles.css"
 
 
-function AgeRating(props) {
+function FakeNews(props) {
   return (
     <>
-      <Typography variant="h6">Age Rating</Typography>
+      <Typography variant="h6">Fake News</Typography>
       <Paper
         elevation={0}
         sx={{
@@ -24,4 +24,4 @@ function AgeRating(props) {
   );
 }
 
-export default AgeRating;
+export default FakeNews;

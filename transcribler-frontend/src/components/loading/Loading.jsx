@@ -3,7 +3,7 @@ import CircularProgress from '@mui/material/CircularProgress'; // Optional, usin
 const Loading = () => {
   return (
     <div style={styles.loaderContainer}>
-      <CircularProgress sx={{color:"red"}}/> {/* MUI Circular Progress Spinner */}
+      <CircularProgress sx={{color:"red"}}/>
     </div>
   );
 };
