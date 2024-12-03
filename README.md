@@ -1,12 +1,12 @@
-# YouTube Agent - Google AI Competition 2024
+# Transcribler - Google AI Competition 2024
 
 Deloitte Team Submission for GCP/Gemini Hackathon. A Chrome Extension for YouTube Multimodal Analysis.
 
 ## Overview
 
-YouTube Agent is a Chrome Extension that provides AI-powered support for YouTube videos with a single click. It offers features such as summarization, translation, Q&A chatbot, sentiment analysis, topic modeling, fake news checking, and age appropriateness evaluation.
+Transcribler is a Chrome Extension that provides AI-powered support for YouTube videos with a single click. It offers features such as summarization, translation, Q&A chatbot, sentiment analysis, topic modeling, fake news checking, and age appropriateness evaluation.
 
-![Project Stages](/extension/images/stages.png)
+![Project Stages](/transcribler-frontend/public/imgs/stages.png)
 
 ## Key Features
 
@@ -18,7 +18,7 @@ YouTube Agent is a Chrome Extension that provides AI-powered support for YouTube
 
 ## Demo
 
-![Screenshot](/extension/images/screenshot-youtube-summary.png)
+![Screenshot](/transcribler-frontend/public/imgs/screenshot-youtube-summary.png)
 
 [Watch Demo Video](https://www.youtube.com/watch?v=bu5BQ0PadBo)
 
@@ -42,11 +42,13 @@ This will start a local server at `http://127.0.0.1:5000/`. You may see a couple
 
 This will start a local server at `http://localhost:4173`. You may see a couple of warnings, but you can ignore them.
 
-4. Create a `.env` file with your Gemini API key: `GOOGLE_API_KEY=your_api_key`
+4. Create a `.env` file at the root of the `transcribler-frontend` directory with your Gemini API key: `VITE_GEMINI_API_KEY="your_api_key"`
 
+5. Create a `.env` file at the root of the `transcribler-backend` directory with your Google and Gemini API keys:
+	`GOOGLE_API_KEY="your_api_key"`
+	`GEMINI_API_KEY="your_api_key"`
 
-5. Load the Chrome extension:
-
+6. Load the Chrome extension:
 - Go to `chrome://extensions/`
 - Enable "Developer mode"
 - Click "Load unpacked" and select the `build` folder inside the `transcribler-frontend` directory
