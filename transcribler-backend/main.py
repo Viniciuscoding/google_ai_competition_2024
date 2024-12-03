@@ -11,14 +11,16 @@ from Vin_Gemini_Video_Summary import Transcription
 from configs import VIN_SUMMARY_PROMPT, VIN_TOPIC, VIN_SENTIMENT_ANALYSIS
 
 # Load the .env file
-load_dotenv('C:\\Users\\ron\\Documents\\GitHub\\google_ai_competition_2024\\transcribler-backend\\.env')
+current_dir = os.path.dirname(os.path.abspath(__file__))
+env_path = os.path.join(current_dir, ".env")
+load_dotenv(env_path)
 # Accessing the environment variables
 GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
 GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
 
 from IPython.display import Markdown
 
-url = "https://www.youtube.com/watch?v=6COmYeLsz4c"
+# url = "https://www.youtube.com/watch?v=6COmYeLsz4c"
 
 import requests
 from bs4 import BeautifulSoup
