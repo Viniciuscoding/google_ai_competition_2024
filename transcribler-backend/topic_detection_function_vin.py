@@ -1,18 +1,24 @@
-import os
-import json
-from typing import List
 from google.cloud import aiplatform
+from langchain_google_vertexai import ChatVertexAI
 # from langchain_core.pydantic_v1 import BaseModel, Field
-# from langchain_core.utils.function_calling import convert_to_openai_function
+from pydantic import BaseModel
+from typing import List
+from langchain_google_vertexai import HarmBlockThreshold, HarmCategory
+from langchain_core.utils.function_calling import convert_to_openai_function
+from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
+import time
 import google.generativeai as genai
 import vertexai
-from vertexai.preview.generative_models import GenerativeModel
+from vertexai.preview import generative_models
+from vertexai.preview.generative_models import GenerativeModel, Part
+import os
 from dotenv import load_dotenv
 
-load_dotenv('./google_ai_competition_2024/.env')
+# Load the .env file
+load_dotenv('C:\\Users\\vinid\\google_competition\\geminihackathon24\\.env')
 # Accessing the environment variables
 GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
-
+GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
 
 """ from task_configs import (
     GEMINI_1_5_VIDEO_TRANSCRIPT_PROMPT,
@@ -24,7 +30,7 @@ from benchmark_examples import (
     GEMINI_1_5_PRO_BENCHMARK_EXTRACTION_LEX_TUCKER_TRANSCRIPT
 ) """
 VIDEO_PART_MAX_DURATION=120 #Part duration in seconds
-
+import vertexai
 GEMINI_1_5_VIDEO_TRANSCRIPT_PROMPT=""" You are provided with a transcript of video. Your task is to analyze the video's transcript
  and extract the following information from the transcript:
 1. description: <a proper summary of the video in 1000 tokens>
@@ -63,8 +69,11 @@ GEMINI_SAFETY_SETTINGS = [
     "threshold": "BLOCK_NONE"
   },
 ]
-#aiplatform.init(project="helpful-compass-425319-r7")
+# aiplatform.init(project="google-ai-competition")
+# vertexai.init(project="google-ai-competition")
+# aiplatform.init(project="helpful-compass-425319-r7")
 # vertexai.init(project="helpful-compass-425319-r7")
+
 # vertexai.preview.init()
 # class VideoTopicExtraction(BaseModel):
 #     '''An Extraction of Key Features from an input video JSON'''
@@ -90,23 +99,35 @@ def detect_topics_sentiment(transcript_text):
         list: A list of detected topics.
     """
 
-    genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+    # genai.configure(api_key=GEMINI_API_KEY)
+    genai.configure(api_key=GOOGLE_API_KEY)
     GEMINI_GENAI_OBJECT = genai
 
-    generative_multimodal_model = GenerativeModel(model_name="gemini-1.0-pro-vision",
+    generative_multimodal_model_vertex = GenerativeModel(model_name="gemini-1.0-pro-vision",
                                                          generation_config=GEMINI_GENERATION_CONFIG)
-    # generative_multimodal_model = GEMINI_GENAI_OBJECT.GenerativeModel(model_name="gemini-1.5-pro-latest", generation_config=GEMINI_GENERATION_CONFIG,safety_settings=GEMINI_SAFETY_SETTINGS)
+    generative_multimodal_model = GEMINI_GENAI_OBJECT.GenerativeModel(model_name="gemini-1.5-pro-latest", generation_config=GEMINI_GENERATION_CONFIG,safety_settings=GEMINI_SAFETY_SETTINGS)
     contents = [transcript_text, GEMINI_1_5_VIDEO_TRANSCRIPT_PROMPT]
     response = generative_multimodal_model.generate_content(contents)
     response_text = str(response.text)
+    #print(response_text)
+    # text_json = {"type":"text",
+    #              "text":response_text,
+    #            }
+    # text_message = {"type": "text",
+    #                 "text": "What are the contents of the JSON ?",
+    #                 }
 
-    # print(response_text)# Remove the Markdown code block formatting
-    json_string = response_text.replace('```json', '').replace('```', '').strip()
+    # message_contents =  [text_message,text_json]
+    # message = HumanMessage(content=message_contents)
+    # llm = ChatVertexAI(model_name="gemini-1.0-pro-001",max_retries=0, temperature=0)
+    # structured_llm = llm.with_structured_output(dict_schema)
+    # extraction_response_dict = structured_llm.invoke([message])[0]
+    # extraction_response = extraction_response_dict['args']
+    # return extraction_response
+    return response_text
 
-    return json.loads(json_string)
 
-
-if __name__ == '__main__':
-    transcript_text = ""
-    topics_sentiment = detect_topics_sentiment(transcript_text)
-    
+# if __name__ == '__main__':
+#     transcript_text = ""
+#     topics_sentiment = detect_topics_sentiment(transcript_text)
+#     print(topics_sentiment)

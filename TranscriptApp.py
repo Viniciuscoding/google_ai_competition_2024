@@ -1,6 +1,7 @@
 # Import all the necessary dependencies
 import os
 from flask import Flask, request
+from flask_cors import CORS  # Import CORS
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api._errors import CouldNotRetrieveTranscript
 from langdetect import detect
@@ -8,9 +9,14 @@ import google.generativeai as genai
 from dotenv import load_dotenv
 from configured_chat import ConfiguredChat
 from topic_detection import detect_topics_sentiment
+import jsonify
+
 
 load_dotenv()  # Load environment variables from .env file
 application = Flask(__name__)
+
+CORS(application)
+
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 chat_instance = ConfiguredChat(
@@ -40,7 +46,7 @@ def summary_api():
     - int: HTTP status code (200 for success, 404 for failure).
     """
     url = request.args.get("url", "")
-    print(f"url: {url}\n")
+    #print(f"url: {url}\n")
     video_id = url.split("=")[1]
     try:
         transcript = get_transcript(video_id)
@@ -51,7 +57,7 @@ def summary_api():
         sentiment_topic = detect_topics_sentiment(transcript)
 
     except Exception as e:
-        print(f"Error occurred during summarization: {str(e)}")
+       # print(f"Error occurred during summarization: {str(e)}")
         return "An error occurred during summarization. Please try again later.", 500
 
     return sentiment_topic, 200
@@ -95,13 +101,41 @@ def get_transcript(video_id):
 
 @application.route("/chat", methods=["POST"])
 def chat():
+    """
+    Chat endpoint that incorporates video context (transcript) into the chatbot's prompt.
+    """
     data = request.get_json()
-    user_message = data["message"]
+    user_message = data.get("message", "")
+    video_url = data.get("video_url", "")
 
-    response = chat_instance.send_message(user_message)
-    response_text = response.text
-    print(response_text)
-    return response_text
+    if not user_message:
+        return jsonify({"error": "No message provided"}), 400
+    if not video_url:
+        return jsonify({"error": "No video URL provided"}), 400
+
+    try:
+        # Extract video ID from URL
+        video_id = video_url.split("v=")[-1].split("&")[0]
+
+        # Fetch the video transcript
+        transcript = get_transcript(video_id)
+
+        # Combine video context with user query
+        prompt = f"""
+        Video Context: {transcript}
+
+        User: {user_message}
+        """
+
+        # Send the combined prompt to the chatbot
+        response = chat_instance.send_message(prompt)
+        response_text = response.text
+        return jsonify({"response": response_text}), 200
+
+    except CouldNotRetrieveTranscript as e:
+        return jsonify({"error": f"Transcript not available: {e.CAUSE_MESSAGE}"}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 if __name__ == "__main__":

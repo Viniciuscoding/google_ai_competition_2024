@@ -24,21 +24,32 @@ YouTube Agent is a Chrome Extension that provides AI-powered support for YouTube
 
 ## Installation
 
-1. Clone the repository: `git clone https://github.com/babcockt18/sentiment-analysis-youtube-chrome-extension.git`
+1. Clone the repository: `git clone https://github.com/Viniciuscoding/google_ai_competition_2024.git`
 
-2. Set up the environment: `conda env create -f environment.yml \n conda activate hackerEnv \n pip install -r requirements.txt`
-
-3. Create a `.env` file with your Gemini API key: `GOOGLE_API_KEY=your_api_key`
-
-4. Run the Flask backend: `python TranscriptApp.py`
+2. Set up and run the backend environment: 
+`cd transcriber-backend`
+`pip install -r requirements.txt`
+`flask --app app run`
 
 This will start a local server at `http://127.0.0.1:5000/`. You may see a couple of warnings, but you can ignore them.
+
+
+3. Set up and run the frontend environment
+	`cd transcriber-frontend`
+	`npm i`
+	`npm run build`
+	`npx vite preview`
+
+This will start a local server at `http://localhost:4173`. You may see a couple of warnings, but you can ignore them.
+
+4. Create a `.env` file with your Gemini API key: `GOOGLE_API_KEY=your_api_key`
+
 
 5. Load the Chrome extension:
 
 - Go to `chrome://extensions/`
 - Enable "Developer mode"
-- Click "Load unpacked" and select the `extension` folder inside the `geminihackathon24` directory
+- Click "Load unpacked" and select the `build` folder inside the `transcribler-frontend` directory
 
 ## Usage
 
@@ -61,9 +72,14 @@ Contributions are welcome! To contribute:
 - Google Cloud Platform (GCP)
 - Gemini AI
 - Chrome Extension API
-- Conda for environment management
+- Venv for environment management
 - Various Python libraries (see `environment.yml` for details)
+- React
+- Vite
+- Material UI
+- Axios
 
 ## Note
 
 This project is part of the Google AI Competition 2024 and showcases the integration of GCP/Gemini technologies with a practical Chrome extension for YouTube video analysis.
+
