@@ -2,6 +2,7 @@
 */**/.env.local
 */.env
 .env
+.venv
 __pycache__
 extensions/__pycache__
 /transcribler/node_modules

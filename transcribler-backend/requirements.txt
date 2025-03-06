@@ -27,3 +27,7 @@ plotly
 nbformat
 langchain-google-vertexai
 langchain_openai
+flask_cors
+langdetect
+IPython
+bs4

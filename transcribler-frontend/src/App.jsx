@@ -14,19 +14,19 @@ import Grid from '@mui/material/Grid2';
 function App() {
   const [url, setUrl] = useState("");
 
-  useEffect(() => {
-    // Send a message to the background script
-    chrome.runtime.sendMessage(
-      { type: "GET_ACTIVE_TAB_URL" },
-      (response) => {
-        if (response?.url) {
-          setUrl(response.url);
-        } else {
-          setUrl("");
-        }
-      }
-    );
-  }, []);
+  // useEffect(() => {
+  //   // Send a message to the background script
+  //   chrome.runtime.sendMessage(
+  //     { type: "GET_ACTIVE_TAB_URL" },
+  //     (response) => {
+  //       if (response?.url) {
+  //         setUrl(response.url);
+  //       } else {
+  //         setUrl("");
+  //       }
+  //     }
+  //   );
+  // }, []);
 
   return (
     <HashRouter>

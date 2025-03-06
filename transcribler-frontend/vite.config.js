@@ -6,16 +6,16 @@ import { viteStaticCopy } from 'vite-plugin-static-copy';
 export default defineConfig({
   plugins: [
     react(),
-    viteStaticCopy({
-      targets: [
-        {
-          src: 'public/manifest.json',
-          dest: './',
-        }
-      ],
-    }),
+    // viteStaticCopy({
+    //   targets: [
+    //     {
+    //       src: 'public/manifest.json',
+    //       dest: './',
+    //     }
+    //   ],
+    // }),
   ],
-  base: './', 
+  // base: './', 
   build: {
     outDir: 'build',
     rollupOptions: {
