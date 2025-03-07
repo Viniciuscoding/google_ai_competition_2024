@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { HashRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { DataProvider } from "./providers/DataContext";
 
@@ -15,18 +15,17 @@ import { Grid2 as Grid } from "@mui/material";
 function App() {
   return (
     <DataProvider>
-      <HashRouter>
+      <BrowserRouter>
         <Grid container direction="column">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/summary" element={<Summary />} />
             <Route path="/history" element={<History />} />
             <Route path="/chat" element={<Chat />} />
-            <Route path="*" element={<Home />} />{" "}
-            {/* TODO: Create an actual 404 Not Found page */}
+            <Route path="*" element={<Home />} />{" "} {/* TODO: Create an actual 404 Not Found page */}
           </Routes>
         </Grid>
-      </HashRouter>
+      </BrowserRouter>
     </DataProvider>
   );
 }
