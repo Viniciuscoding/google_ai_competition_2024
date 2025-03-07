@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useData } from "../../providers/DataContext";
+import { useData } from "../../providers/DataContext.jsx";
 
 import PropTypes from 'prop-types';
 
@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 
 // custom components
 import Loading from '../loading/Loading.jsx';
-import Header from '../../components/header/Header';
+import Header from '../header/Header.jsx';
 import AgeRating from './sections/AgeRating.jsx';
 import Toxicity from './sections/Toxicity.jsx';
 import FakeNews from './sections/FakeNews.jsx';
