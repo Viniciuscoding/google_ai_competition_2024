@@ -1,7 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useData } from "../../providers/DataContext";
 
 import PropTypes from 'prop-types';
+
+// mui components
+import Box from '@mui/material/Box';
+
+// custom components
+import Loading from '../loading/Loading.jsx';
 import Header from '../../components/header/Header';
 import AgeRating from './sections/AgeRating.jsx';
 import Toxicity from './sections/Toxicity.jsx';
@@ -9,41 +16,10 @@ import FakeNews from './sections/FakeNews.jsx';
 import Summarization from './sections/Summarization.jsx';
 import SentimentAnalysis from './sections/SentimentAnalysis.jsx';
 
-import Box from '@mui/material/Box';
-
-
-import Loading from '../loading/Loading.jsx';
-import axios from 'axios';
-
 function Summary() {
   const location = useLocation();
   const url = location.state?.url;
-  const [data, setData] = useState(location.state?.data ?? null);
-
-  useEffect(() => {
-    const abortController = new AbortController();
-
-    const fetchData = async () => {
-      try {
-        console.log("getting video data for ", url);
-        const response = await axios.post(`http://127.0.0.1:5000/`, 
-          { url: url },
-          { signal: abortController.signal }
-        );
-        setData(response.data);
-      } catch (e) {
-        if (e.name !== 'AbortError') {
-          console.error("response failed", e);
-        }
-      }
-    };
-
-    if (!data) fetchData();
-
-    return () => {
-      abortController.abort(); 
-    };
-  }, []);
+  const { data } = useData();
 
   return (
     <>

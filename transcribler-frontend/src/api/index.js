@@ -1,0 +1,1 @@
+export { getVideoData } from './video.js';

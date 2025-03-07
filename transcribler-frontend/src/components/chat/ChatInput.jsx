@@ -21,7 +21,7 @@ function ChatInput({ retrieveMessage, data }) {
 
   const [geminiKey] = useState(import.meta.env.VITE_GEMINI_API_KEY);
   const [genAI] = useState(new GoogleGenerativeAI(geminiKey));
-  const [model] = useState(genAI.getGenerativeModel({ model: "gemini-pro"}));
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
   const testBot = async () => {
     if (inputValue.trim()) {

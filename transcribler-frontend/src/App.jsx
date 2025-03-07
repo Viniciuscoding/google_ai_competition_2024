@@ -1,48 +1,34 @@
-import { useState, useEffect } from 'react';
-import { HashRouter, Route, Routes } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { HashRouter, Route, Routes } from "react-router-dom";
+
+import { DataProvider } from "./providers/DataContext";
 
 /* component routes */
-import Home from './components/home/Home';
-// import Header from './components/header/Header';
-import History from './components/history/History';
-import Summary from './components/summary/Summary';
-import Chat from './components/chat/Chat';
+import Home from "./components/home/Home";
+import History from "./components/history/History";
+import Summary from "./components/summary/Summary";
+import Chat from "./components/chat/Chat";
 
 /* mui */
-import Grid from '@mui/material/Grid2';
+import { Grid2 as Grid } from "@mui/material";
 
 function App() {
-  const [url, setUrl] = useState("");
-
-  // useEffect(() => {
-  //   // Send a message to the background script
-  //   chrome.runtime.sendMessage(
-  //     { type: "GET_ACTIVE_TAB_URL" },
-  //     (response) => {
-  //       if (response?.url) {
-  //         setUrl(response.url);
-  //       } else {
-  //         setUrl("");
-  //       }
-  //     }
-  //   );
-  // }, []);
-
   return (
-    <HashRouter>
-      <Grid container direction="column">
-        {/* {data ? <Header title={data.title}/> : <></>} */}
-        <Routes>
-          <Route path="/" element={<Home url={url}/>} />
-          <Route path="/summary" element={<Summary />} />
-          <Route path="/history" element={<History />} />
-          <Route path="/chat" element={<Chat />} />
-          <Route path="*" element={<Home url={url}/>} /> 
-        </Routes>
-      </Grid>
-    </HashRouter>
+    <DataProvider>
+      <HashRouter>
+        <Grid container direction="column">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/summary" element={<Summary />} />
+            <Route path="/history" element={<History />} />
+            <Route path="/chat" element={<Chat />} />
+            <Route path="*" element={<Home />} />{" "}
+            {/* TODO: Create an actual 404 Not Found page */}
+          </Routes>
+        </Grid>
+      </HashRouter>
+    </DataProvider>
   );
 }
 
 export default App;
-
