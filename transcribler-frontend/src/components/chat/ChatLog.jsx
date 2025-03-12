@@ -19,7 +19,6 @@ function ChatLog(props) {
         {log.slice().reverse().map((message, index) => (
           <Grid
             key={index}
-            item
             display="flex"
             justifyContent={message.sender === 'User' ? 'flex-end' : 'flex-start'}
             alignItems="center"

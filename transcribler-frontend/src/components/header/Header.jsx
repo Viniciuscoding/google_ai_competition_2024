@@ -17,7 +17,7 @@ function Header({ title, data }) {
         alignItems="center"
         sx={{ padding: "1rem" }}
       >
-        <Grid item>
+        <Grid>
           <NavLink to="/">
             <img src="/imgs/Logo1_35x103.png" alt="logo" />
           </NavLink>
@@ -30,7 +30,7 @@ function Header({ title, data }) {
         sx={{ padding: "0 20px", fontWeight: "bold" }}
         mb={2}
       >
-        <Grid item>{title}</Grid>
+        <Grid>{title}</Grid>
       </Grid>
       <Divider />
       <Grid
@@ -40,7 +40,7 @@ function Header({ title, data }) {
         sx={{ padding: "0 20px", width: "100%" }}
         mt={2}
       >
-        <Grid item>
+        <Grid >
           <Link
             component={NavLink}
             to="/summary"
@@ -64,7 +64,7 @@ function Header({ title, data }) {
           </Link>
         </Grid>
 
-        <Grid item>
+        <Grid>
           <Link
             component={NavLink}
             to="/chat"

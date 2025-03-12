@@ -2,18 +2,22 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useData } from "../../providers/DataContext";
 
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+
 // api
 import { getVideoData } from "../../api";
 
 // mui components
 import {
   Box,
+  Button,
   CircularProgress,
   Divider,
   Grid2 as Grid,
   IconButton,
   TextField,
   Tooltip,
+  Typography,
 } from "@mui/material";
 import { Send } from "@mui/icons-material";
 
@@ -23,7 +27,8 @@ function Home() {
   const [loading, setLoading] = useState(false);
   const [url, setUrl] = useState(null);
   const { setData } = useData();
-
+  const auth = getAuth();
+  // console.log(auth.currentUser)
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
@@ -47,12 +52,11 @@ function Home() {
         justifyContent="center"
         alignItems="center"
       >
-        <Grid item sx={{ padding: "1rem" }}>
+        <Grid sx={{ padding: "1rem" }}>
           <img src="/imgs/Logo1_35x103.png" alt="logo" />
         </Grid>
         <Divider style={{ width: "100%" }} />
         <Grid
-          item
           sx={{
             display: "flex",
             padding: "1rem",
@@ -66,21 +70,58 @@ function Home() {
           <Box
             sx={{
               display: "flex",
+              flexDirection: "column",
               gap: 1,
             }}
           >
-            <TextField
-              required
-              label="Video URL"
-              variant="outlined"
-              sx={{ width: "25vw" }}
-              onChange={(event) => setUrl(event.target.value)}
-            />
-            <Tooltip title="Generate Analysis">
-              <IconButton onClick={handleSubmit} sx={{ width: 56, height: 56, borderRadius: "50%" }}>
-                {loading ? <CircularProgress /> : <Send />}
-              </IconButton>
-            </Tooltip>
+            <Typography variant="h4" component="h1" sx={{py: 2}}>
+              Welcome to Transcribler!
+            </Typography>
+            {auth.currentUser == null ? (
+              <>
+                <Button
+                  variant="outlined"
+                  color="white"
+                  component={Link}
+                  to="/register"
+                >
+                  Register
+                </Button>
+                <Button
+                  variant="contained"
+                  sx={{ backgroundColor: "black" }}
+                  component={Link}
+                  to="/login"
+                >
+                  Login
+                </Button>
+              </>
+            ) : (
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  gap: 1,
+                  width: "100%",
+                }}
+              >
+                <TextField
+                  required
+                  label="Video URL"
+                  variant="outlined"
+                  onChange={(event) => setUrl(event.target.value)}
+                  sx={{ flexGrow: 1 }} // This makes the TextField take up available space.
+                />
+                <Tooltip title="Generate Analysis">
+                  <IconButton
+                    onClick={handleSubmit}
+                    sx={{ width: 56, height: 56, borderRadius: "50%" }}
+                  >
+                    {loading ? <CircularProgress /> : <Send />}
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            )}
           </Box>
         </Grid>
       </Grid>
