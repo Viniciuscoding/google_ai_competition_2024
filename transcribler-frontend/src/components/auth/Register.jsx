@@ -1,9 +1,10 @@
-import { useState, useContext } from "react";
-
+import { useState, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthContext";
 
 // mui components
 import {
+  Alert,
   Box,
   Button,
   Divider,
@@ -31,30 +32,32 @@ function Register() {
   const [passwordError, setPasswordError] = useState(false);
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
 
+  const [registerFailed, setRegisterFailed] = useState(false);
+
+  const navigate = useNavigate();
+
   const handleSubmit = () => {
     // form validation
-    if (!email.match(emailRegex)) {
-      setEmailError(true);
-    } else {
-      setEmailError(false);
-    }
-    if (!password.match(passwordRegex)) {
-      setPasswordError(true);
-    } else {
-      setPasswordError(false);
-    }
-    if (password !== confirmPassword) {
-      setConfirmPasswordError(true);
-    } else {
-      setConfirmPasswordError(false);
-    }
-
-    // sign up 
-    if (!emailError && !passwordError && !confirmPasswordError) {
-      console.log("signing up")
-      signUp({ email, password });
-    }
+    setEmailError(!email.match(emailRegex));
+    setPasswordError(!password.match(passwordRegex));
+    setConfirmPasswordError(password !== confirmPassword);
   };
+
+  useEffect(() => {
+    if (!emailError && !passwordError && !confirmPasswordError) {
+      async () => {
+        if (email && password && confirmPassword) {
+          try {
+            signUp({ email, password });
+            navigate("/");
+          } catch (e) {
+            console.error(e);
+            setRegisterFailed(true);
+          }
+        }
+      };
+    }
+  }, [emailError, passwordError, confirmPasswordError]);
 
   return (
     <>
@@ -72,14 +75,24 @@ function Register() {
           </NavLink>
         </Grid>
         <Divider style={{ width: "100%" }} />
-        <Grid>
+        <Grid
+          sx={{
+            display: "flex",
+            padding: "1rem",
+            height: "80vh",
+            width: "100vw",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <Box
             component="form"
             sx={{
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              py: 5,
+              // py: 5,
               gap: 2,
               "& .MuiTextField-root": { m: 1, width: "25ch" },
             }}
@@ -124,6 +137,11 @@ function Register() {
             >
               Register
             </Button>
+            {registerFailed && (
+              <Alert severity="error">
+                Registration failed. Please try again.
+              </Alert>
+            )}
           </Box>
         </Grid>
       </Grid>

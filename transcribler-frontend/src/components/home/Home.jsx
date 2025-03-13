@@ -1,8 +1,6 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useContext, useEffect } from "react";
+import { useNavigate, Link, NavLink  } from "react-router-dom";
 import { useData } from "../../providers/DataContext";
-
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 // api
 import { getVideoData } from "../../api";
@@ -19,20 +17,19 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { Send } from "@mui/icons-material";
+import { Logout, Send } from "@mui/icons-material";
 
-import { Link, NavLink } from "react-router-dom";
+import { AuthContext } from "../../providers/AuthContext";
 
 function Home() {
-  const [loading, setLoading] = useState(false);
+  const [loadingAnalysis, setLoadingAnalysis] = useState(false);
   const [url, setUrl] = useState(null);
   const { setData } = useData();
-  const auth = getAuth();
-  // console.log(auth.currentUser)
+  const { user, loading, signOut } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
-    setLoading(true);
+    setLoadingAnalysis(true);
     try {
       const response = await getVideoData(url);
       setData(response);
@@ -40,8 +37,10 @@ function Home() {
     } catch (e) {
       console.error(e);
     }
-    setLoading(false);
+    setLoadingAnalysis(false);
   };
+
+  if (loading) return <CircularProgress />;
   return (
     <>
       <Grid
@@ -52,8 +51,20 @@ function Home() {
         justifyContent="center"
         alignItems="center"
       >
-        <Grid sx={{ padding: "1rem" }}>
-          <img src="/imgs/Logo1_35x103.png" alt="logo" />
+        <Grid
+          container
+          sx={{ padding: "1rem", display: "flex", alignItems: "center" }}
+        >
+          <Grid xs={12} sx={{ display: "flex", justifyContent: "center" }}>
+            <img src="/imgs/Logo1_35x103.png" alt="logo" />
+          </Grid>
+          {user && (
+            <Grid sx={{ position: "absolute", right: "1rem" }}>
+              <IconButton onClick={() => signOut()}>
+                <Logout />
+              </IconButton>
+            </Grid>
+          )}
         </Grid>
         <Divider style={{ width: "100%" }} />
         <Grid
@@ -74,10 +85,10 @@ function Home() {
               gap: 1,
             }}
           >
-            <Typography variant="h4" component="h1" sx={{py: 2}}>
+            <Typography variant="h4" component="h1" sx={{ py: 2 }}>
               Welcome to Transcribler!
             </Typography>
-            {auth.currentUser == null ? (
+            {user == null ? (
               <>
                 <Button
                   variant="outlined"
@@ -117,7 +128,7 @@ function Home() {
                     onClick={handleSubmit}
                     sx={{ width: 56, height: 56, borderRadius: "50%" }}
                   >
-                    {loading ? <CircularProgress /> : <Send />}
+                    {loadingAnalysis ? <CircularProgress /> : <Send />}
                   </IconButton>
                 </Tooltip>
               </Box>

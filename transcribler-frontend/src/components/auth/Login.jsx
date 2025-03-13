@@ -1,26 +1,43 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 // mui components
-import { 
+import {
+  Alert,
   Box,
   Button,
-  Divider, 
-  Grid2 as Grid, 
+  Divider,
+  Grid2 as Grid,
   TextField,
   Typography,
 } from "@mui/material";
 
-import { NavLink } from "react-router-dom";
+import { AuthContext } from "../../providers/AuthContext";
 
 function Login() {
+  const { user, loading, signIn } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [emailError, setEmailError] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
+  const [loginFailed, setLoginFailed] = useState(false);
 
-  const handleSubmit = () => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async () => {
+    try {
+      await signIn({ email, password });
+    } catch (e) {
+      console.error(e);
+      setLoginFailed(true);
+    }
   };
+
+  useEffect(() => {
+    if (user) {
+      navigate("/home");
+    }
+  }, [user]);
 
   return (
     <>
@@ -38,7 +55,17 @@ function Login() {
           </NavLink>
         </Grid>
         <Divider style={{ width: "100%" }} />
-        <Grid>
+        <Grid
+          sx={{
+            display: "flex",
+            padding: "1rem",
+            height: "80vh",
+            width: "100vw",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <Box
             component="form"
             sx={{
@@ -56,16 +83,11 @@ function Login() {
               Login
             </Typography>
             <TextField
-              required
-              error={emailError}
-              helperText={emailError && "Invalid email."}
               label="Email"
               onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
               required
-              error={passwordError}
-              helperText={passwordError && "Invalid password."}
               label="Password"
               type="password"
               onChange={(e) => setPassword(e.target.value)}
@@ -77,6 +99,9 @@ function Login() {
             >
               Login
             </Button>
+            {loginFailed && (
+              <Alert severity="error">Incorrect email or password.</Alert>
+            )}
           </Box>
         </Grid>
       </Grid>

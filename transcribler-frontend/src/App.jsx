@@ -20,10 +20,10 @@ import { Grid2 as Grid, ThemeProvider } from "@mui/material";
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <AuthProvider>
-        <DataProvider>
-          <BrowserRouter>
+    <BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <AuthProvider>
+          <DataProvider>
             <Grid container direction="column">
               <Routes>
                 <Route path="/" element={<Home />} />
@@ -36,10 +36,10 @@ function App() {
                 {/* TODO: Create an actual 404 Not Found page */}
               </Routes>
             </Grid>
-          </BrowserRouter>
-        </DataProvider>
-      </AuthProvider>
-    </ThemeProvider>
+          </DataProvider>
+        </AuthProvider>
+      </ThemeProvider>
+    </BrowserRouter>
   );
 }
 

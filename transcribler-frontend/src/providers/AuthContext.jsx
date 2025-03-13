@@ -1,15 +1,8 @@
 import React, { useState, useEffect, createContext } from "react";
 import { useNavigate } from "react-router-dom";
-
 import { onAuthStateChanged } from "firebase/auth";
-
 import { auth } from "../firebase/BaseConfig";
-
-import {
-  firebaseSignUp,
-  firebaseSignIn,
-  firebaseSignOut,
-} from "../firebase/AuthService";
+import { firebaseSignUp, firebaseSignIn, firebaseSignOut } from "../firebase/AuthService";
 
 export const AuthContext = createContext({
   user: auth.currentUser,
@@ -23,74 +16,70 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isAuthLoading, setIsAuthLoading] = useState(true);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  //Sign up
-  const signUp = (creds) => {
+  // **Sign Up**
+  const signUp = async (creds) => {
     setIsLoading(true);
-    firebaseSignUp(creds)
-      .then(async (signUpResult) => {
-        const { user } = signUpResult; //object destructuring
+    return firebaseSignUp(creds) // ✅ Ensures a Promise is returned
+      .then((signUpResult) => {
+        const { user } = signUpResult;
         if (user) {
+          console.log(1);
           setCurrentUser(user);
-          //redirect the user on the targeted route
-          // navigate("/dashboard", { replace: true });
         } else {
-          //do something if user is empty like an alert
+          console.log(2);
         }
-        setIsLoading(false);
       })
       .catch((error) => {
-        //check for error
-        if (error.code === "auth/email-already-in-use") {
-          //show an alert or console
-        } else if (error.code === "auth/too-many-requests") {
-          //do something like an alert
-        }
-        // you can check for more error like email not valid or something
+        console.error(error);
+        throw error; // ✅ Error propagates correctly
+      })
+      .finally(() => {
         setIsLoading(false);
       });
   };
 
-  //Sign in
-  const signIn = async (creds, onSuccess) => {
+  // **Sign In**
+  const signIn = async (creds) => {
     setIsLoading(true);
-    firebaseSignIn(creds)
+    return firebaseSignIn(creds) // ✅ Ensures a Promise is returned
       .then((signInResult) => {
         const { user } = signInResult;
         if (user) {
           setCurrentUser(user);
-          //redirect user to targeted route
-          navigate("/dashboard", { replace: true });
+          console.log(1);
         } else {
-          //do something
+          console.log(2);
         }
-        setIsLoading(false);
       })
       .catch((error) => {
-        if (error.code === "auth/wrong-password") {
-          //show error
-        } else if (error.code === "auth/too-many-requests") {
-          //show error
-        }
+        console.error(error);
+        throw error; // ✅ Error propagates correctly
+      })
+      .finally(() => {
         setIsLoading(false);
       });
   };
 
-  //Sign out
+  // **Sign Out**
   const signOut = async () => {
     setIsLoading(true);
-    try {
-      await firebaseSignOut();
-      setCurrentUser(null);
-      navigate("/signin", { replace: true });
-    } catch (error) {
-      setIsLoading(false);
-      //show error alert
-    }
+    return firebaseSignOut() // ✅ Ensures a Promise is returned
+      .then(() => {
+        setCurrentUser(null);
+        navigate("/signin", { replace: true });
+      })
+      .catch((error) => {
+        console.error(error);
+        throw error; // ✅ Error propagates correctly
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
-  //create Auth Values
+  // **Auth Values**
   const authValues = {
     user: currentUser,
     loading: isLoading,
@@ -99,8 +88,8 @@ export const AuthProvider = ({ children }) => {
     signOut,
   };
 
+  // **Auth State Listener**
   useEffect(() => {
-    //onAuthStateChanged check if the user is still logged in or not
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
       setIsAuthLoading(false);
@@ -108,10 +97,5 @@ export const AuthProvider = ({ children }) => {
     return unsubscribe;
   }, []);
 
-  // //If loading for the first time when visiting the page
-  // if (isAuthLoading) return <PageLoading />;
-
-  return (
-    <AuthContext.Provider value={authValues}>{children}</AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={authValues}>{children}</AuthContext.Provider>;
 };
