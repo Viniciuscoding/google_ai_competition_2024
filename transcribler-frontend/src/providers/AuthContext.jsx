@@ -48,9 +48,9 @@ export const AuthProvider = ({ children }) => {
         const { user } = signInResult;
         if (user) {
           setCurrentUser(user);
-          console.log(1);
+          // console.log(1);
         } else {
-          console.log(2);
+          // console.log(2);
         }
       })
       .catch((error) => {

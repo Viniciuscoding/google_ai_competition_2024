@@ -4,6 +4,8 @@
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 
+import Markdown from 'react-markdown'
+
 import "../styles.css"
 
 
@@ -15,10 +17,11 @@ function AgeRating(props) {
         elevation={0}
         sx={{
           backgroundColor: "#F1F1F1",
-          padding: "1rem"
+          padding: "1rem",
+          width: "300px"
         }}
       >
-        {props.details}
+        <Markdown>{props.details}</Markdown>
       </Paper>
     </>
   );

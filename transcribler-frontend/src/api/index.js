@@ -32,13 +32,15 @@ export async function summarizeText(transcription) {
     { type: "text", content: transcription },
     "Summarize this excerpt from a video transcription.",
   ]);
+  console.log(transcription);
+  console.log(response)
 
   return response;
 }
 
 export async function ageRating(summary) {
   const prompt =
-    "What is the age rating of this video? Return your result as a JSON object with the key 'reasoning' with the value as an explanation string, and the key 'rating' and the value as the age rating. Only provide one of these values for the key 'rating': G, PR, PG-13, R, and NC-17";
+    "What is the age rating of this video? Return your result with the 'rating' as the value as the age rating, and a 'reasoning' paragraph following it. Only provide one of these values for the key 'rating': G, PR, PG-13, R, and NC-17";
   const session = await ai.languageModel.create({
     systemPrompt: "You are a helpful and friendly assistant",
   });
@@ -49,8 +51,8 @@ export async function ageRating(summary) {
   return response;
 }
 
-export async function toxicity(summary) {
-  const prompt = "";
+export async function getToxicity(summary) {
+  const prompt = "Determine if there is any toxic content in the following text. Please warn users if there are any mentions of violence, hate speech, or other harmful content.";
   console.log(1);
   const session = await ai.languageModel.create({
     systemPrompt: "You are a helpful and friendly assistant",
@@ -63,7 +65,7 @@ export async function toxicity(summary) {
 }
 
 export async function sentimentAnalysis(summary) {
-  const prompt = "";
+  const prompt = "Determine the sentiment of the following text as Positive, Negative, or Neutral. Return your result with the 'sentiment' being one of these values: Positive, Negative, or Neutral, and a 'reasoning' paragraph following it. ";
   const session = await ai.languageModel.create({
     systemPrompt: "You are a helpful and friendly assistant",
   });

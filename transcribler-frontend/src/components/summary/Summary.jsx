@@ -29,7 +29,7 @@ function Summary() {
           <Box m={1}>
             <Box mt={2} mb={2}><AgeRating details={data["Age Rating"]}/></Box>
             <Box mb={2}><Toxicity details={data["Toxicity"]}/></Box>
-            <Box mb={2}><FakeNews details={data["Fake News"] ? data["Fake News"] : data["Fake news"] }/></Box>
+            {/* <Box mb={2}><FakeNews details={data["Fake News"] ? data["Fake News"] : data["Fake news"] }/></Box> */}
             <Box mb={2}><Summarization details={data["final summary"]}/></Box>
             <Box mb={2}><SentimentAnalysis details={data["Sentiment Analysis"]}/></Box>
           </Box>

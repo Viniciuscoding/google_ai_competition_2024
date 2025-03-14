@@ -1,11 +1,11 @@
-
 // import React from 'react';
 
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
 
-import "../styles.css"
+import "../styles.css";
 
+import Markdown from "react-markdown";
 
 function SentimentAnalysis(props) {
   return (
@@ -15,10 +15,11 @@ function SentimentAnalysis(props) {
         elevation={0}
         sx={{
           backgroundColor: "#F1F1F1",
-          padding: "1rem"
+          padding: "1rem",
+          width: "300px"
         }}
       >
-        {props.details}
+        <Markdown>{props.details}</Markdown>
       </Paper>
     </>
   );

@@ -9,8 +9,8 @@ import {
   summarizeText, 
   transcribeAudio,
   ageRating,
-  toxicity,
-  sentimentAnalysis
+  getToxicity,
+  sentimentAnalysis,
 } from "../../api";
 
 // mui components
@@ -49,17 +49,19 @@ function Home({
       const transcription = await transcribeAudio(test);
       const summary = await summarizeText(transcription);
       const rating = await ageRating(summary);
+      const sentiment = await sentimentAnalysis(summary);
+      const toxicity = await getToxicity(summary);
 
       const data = {};
       data["final summary"] = summary;
       data["Age Rating"] = rating;
-      data["Toxicity"] = await toxicity(summary);
-      data["Sentiment Analysis"] = await sentimentAnalysis(summary);
+      data["Toxicity"] = toxicity;
+      data["Sentiment Analysis"] = sentiment;
       setData(data);
 
       // const response = await getVideoData(url);
       // setData(response);
-      // navigate("/summary");
+      navigate("/summary");
     } catch (e) {
       console.error(e);
     }
@@ -136,7 +138,7 @@ function Home({
               <Typography variant="h4" component="h1" sx={{ py: 2 }}>
                 Welcome to Transcribler!
               </Typography>
-              <>Log: {logger}</>
+              {/* <>Log: {logger}</> */}
               {user == null ? (
                 <>
                   <Button
