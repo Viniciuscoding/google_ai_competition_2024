@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Transcribler Chrome Extension",
-  "version": "1.0.0",
-  "description": "Summarize YouTube videos and receive sentiment analysis using Google Gemini.",
+  "version": "2.0.0",
+  "description": "Summarize YouTube videos and receive sentiment analysis using Chrome Built-In API.",
   "action": {
     "default_popup": "index.html",
     "default_icon": {
@@ -20,8 +20,7 @@
     "storage",
     "tabs",
     "activeTab",
-    "scripting",
-    "action"
+    "scripting"
   ],
   "background": {
     "service_worker": "background.js"

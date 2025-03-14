@@ -7,6 +7,7 @@ import {
   Alert,
   Box,
   Button,
+  CircularProgress,
   Divider,
   Grid2 as Grid,
   TextField,
@@ -22,7 +23,7 @@ const passwordRegex =
   /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 
 function Register() {
-  const { signUp } = useContext(AuthContext);
+  const { signUp, loading } = useContext(AuthContext);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -38,14 +39,15 @@ function Register() {
 
   const handleSubmit = () => {
     // form validation
-    setEmailError(!email.match(emailRegex));
-    setPasswordError(!password.match(passwordRegex));
-    setConfirmPasswordError(password !== confirmPassword);
-  };
-
-  useEffect(() => {
-    if (!emailError && !passwordError && !confirmPasswordError) {
-      async () => {
+    console.log("click");
+    const validateEmail = !email.match(emailRegex);
+    const validatePassword = !password.match(passwordRegex);
+    const validateConfirmPassword = password !== confirmPassword;
+    setEmailError(validateEmail);
+    setPasswordError(validatePassword);
+    setConfirmPasswordError(validateConfirmPassword);
+    if (!validateEmail && !validatePassword && !validateConfirmPassword) {
+      const registerUser = async () => {
         if (email && password && confirmPassword) {
           try {
             signUp({ email, password });
@@ -56,96 +58,112 @@ function Register() {
           }
         }
       };
+      registerUser();
     }
-  }, [emailError, passwordError, confirmPasswordError]);
+  };
 
   return (
-    <>
+    <Grid
+      container
+      direction="column"
+      sx={{ width: "100%" }}
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+    >
+      <Grid sx={{ padding: "1rem" }}>
+        <NavLink to="/">
+          <img src="/imgs/Logo1_35x103.png" alt="logo" />
+        </NavLink>
+      </Grid>
+      <Divider style={{ width: "100%" }} />
       <Grid
-        container
-        direction="column"
-        sx={{ width: "100%" }}
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
+        sx={{
+          display: "flex",
+          padding: "1rem",
+          height: "80vh",
+          width: "100vw",
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
       >
-        <Grid sx={{ padding: "1rem" }}>
-          <NavLink to="/">
-            <img src="/imgs/Logo1_35x103.png" alt="logo" />
-          </NavLink>
-        </Grid>
-        <Divider style={{ width: "100%" }} />
-        <Grid
+        <Box
+          component="form"
           sx={{
             display: "flex",
-            padding: "1rem",
-            height: "80vh",
-            width: "100vw",
-            flexDirection: "row",
-            justifyContent: "center",
+            flexDirection: "column",
             alignItems: "center",
+            // py: 5,
+            gap: 2,
+            "& .MuiTextField-root": { m: 1, width: "25ch" },
           }}
+          noValidate
+          autoComplete="off"
         >
-          <Box
-            component="form"
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              // py: 5,
-              gap: 2,
-              "& .MuiTextField-root": { m: 1, width: "25ch" },
-            }}
-            noValidate
-            autoComplete="off"
-          >
-            <Typography variant="h4" component="h1">
-              Register
-            </Typography>
-            <TextField
-              required
-              error={emailError}
-              helperText={emailError && "Invalid email."}
-              label="Email"
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <TextField
-              required
-              error={passwordError}
-              helperText={
-                passwordError &&
-                "Password must have minimum 8 characters, at least one letter, 1 number and 1 special character."
-              }
-              label="Password"
-              type="password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <TextField
-              required
-              error={confirmPasswordError}
-              helperText={
-                confirmPasswordError && "Password confirmation does not match."
-              }
-              label="Confirm password"
-              type="password"
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-            <Button
-              variant="contained"
-              sx={{ backgroundColor: "black" }}
-              onClick={handleSubmit}
+          {loading ? (
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "100%",
+              }}
             >
-              Register
-            </Button>
-            {registerFailed && (
-              <Alert severity="error">
-                Registration failed. Please try again.
-              </Alert>
-            )}
-          </Box>
-        </Grid>
+              <CircularProgress />
+            </Box>
+          ) : (
+            <>
+              <Typography variant="h4" component="h1">
+                Register
+              </Typography>
+              <TextField
+                required
+                error={emailError}
+                helperText={emailError && "Invalid email."}
+                label="Email"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <TextField
+                required
+                error={passwordError}
+                helperText={
+                  passwordError &&
+                  "Password must have minimum 8 characters, at least one letter, 1 number and 1 special character."
+                }
+                label="Password"
+                type="password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <TextField
+                required
+                error={confirmPasswordError}
+                helperText={
+                  confirmPasswordError &&
+                  "Password confirmation does not match."
+                }
+                label="Confirm password"
+                type="password"
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+              <Button
+                variant="contained"
+                sx={{ backgroundColor: "black" }}
+                onClick={handleSubmit}
+              >
+                Register
+              </Button>
+              {registerFailed && (
+                <Alert severity="error">
+                  Registration failed. Please try again.
+                </Alert>
+              )}
+            </>
+          )}
+        </Box>
       </Grid>
-    </>
+    </Grid>
   );
 }
 

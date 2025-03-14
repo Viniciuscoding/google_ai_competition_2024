@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from "react";
-import { useNavigate, Link, NavLink  } from "react-router-dom";
+import { useNavigate, Link, NavLink } from "react-router-dom";
 import { useData } from "../../providers/DataContext";
 
 // api
@@ -21,9 +21,9 @@ import { Logout, Send } from "@mui/icons-material";
 
 import { AuthContext } from "../../providers/AuthContext";
 
-function Home() {
+function Home({ url }) {
   const [loadingAnalysis, setLoadingAnalysis] = useState(false);
-  const [url, setUrl] = useState(null);
+  // const [url, setUrl] = useState(null);
   const { setData } = useData();
   const { user, loading, signOut } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -40,7 +40,12 @@ function Home() {
     setLoadingAnalysis(false);
   };
 
-  if (loading) return <CircularProgress />;
+  useEffect(() => {
+    if (url && !loadingAnalysis) {
+      handleSubmit();
+    }
+  }, [url]);
+
   return (
     <>
       <Grid
@@ -66,75 +71,82 @@ function Home() {
             </Grid>
           )}
         </Grid>
+        {/* URL: {url} */}
         <Divider style={{ width: "100%" }} />
-        <Grid
-          sx={{
-            display: "flex",
-            padding: "1rem",
-            height: "80vh",
-            width: "100vw",
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Box
+        {loading ? (
+          <CircularProgress />
+        ) : (
+          <Grid
             sx={{
               display: "flex",
-              flexDirection: "column",
-              gap: 1,
+              padding: "1rem",
+              height: "80vh",
+              width: "100vw",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
-            <Typography variant="h4" component="h1" sx={{ py: 2 }}>
-              Welcome to Transcribler!
-            </Typography>
-            {user == null ? (
-              <>
-                <Button
-                  variant="outlined"
-                  color="white"
-                  component={Link}
-                  to="/register"
-                >
-                  Register
-                </Button>
-                <Button
-                  variant="contained"
-                  sx={{ backgroundColor: "black" }}
-                  component={Link}
-                  to="/login"
-                >
-                  Login
-                </Button>
-              </>
-            ) : (
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  gap: 1,
-                  width: "100%",
-                }}
-              >
-                <TextField
-                  required
-                  label="Video URL"
-                  variant="outlined"
-                  onChange={(event) => setUrl(event.target.value)}
-                  sx={{ flexGrow: 1 }} // This makes the TextField take up available space.
-                />
-                <Tooltip title="Generate Analysis">
-                  <IconButton
-                    onClick={handleSubmit}
-                    sx={{ width: 56, height: 56, borderRadius: "50%" }}
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 1,
+              }}
+            >
+              <Typography variant="h4" component="h1" sx={{ py: 2 }}>
+                Welcome to Transcribler!
+              </Typography>
+              {user == null ? (
+                <>
+                  <Button
+                    variant="outlined"
+                    color="white"
+                    component={Link}
+                    to="/register"
                   >
-                    {loadingAnalysis ? <CircularProgress /> : <Send />}
-                  </IconButton>
-                </Tooltip>
-              </Box>
-            )}
-          </Box>
-        </Grid>
+                    Register
+                  </Button>
+                  <Button
+                    variant="contained"
+                    sx={{ backgroundColor: "black" }}
+                    component={Link}
+                    to="/login"
+                  >
+                    Login
+                  </Button>
+                </>
+              ) : (
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    gap: 1,
+                    width: "100%",
+                  }}
+                >
+                  <TextField
+                    required
+                    label="Video URL"
+                    variant="outlined"
+                    onChange={(event) => setUrl(event.target.value)}
+                    sx={{ flexGrow: 1 }} // This makes the TextField take up available space.
+                    value={url}
+                    disabled
+                  />
+                  <Tooltip title="Generate Analysis">
+                    <IconButton
+                      onClick={handleSubmit}
+                      sx={{ width: 56, height: 56, borderRadius: "50%" }}
+                    >
+                      {loadingAnalysis ? <CircularProgress /> : <Send />}
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+              )}
+            </Box>
+          </Grid>
+        )}
       </Grid>
     </>
   );

@@ -17,6 +17,8 @@
 
 /* Set global styles for the extension popup */
 html, body {
+  width: 400px;
+  height: 600px;
   margin: 0;
   padding: 0;
   overflow: auto; /* Enable scrolling */

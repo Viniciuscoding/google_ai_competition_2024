@@ -4,10 +4,27 @@ import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
-  server: {
-    watch: {
-      usePolling: true
-    }
-  }
-})
+  plugins: [
+    react(),
+    viteStaticCopy({
+      targets: [
+        {
+          src: "public/manifest.json",
+          dest: "./",
+        }
+      ],
+    }),
+  ],
+  base: "./",
+  build: {
+    outDir: "build",
+    rollupOptions: {
+      input: {
+        popup: "./index.html",
+      },
+      output: {
+        entryFileNames: '[name].js',
+      },
+    },
+  },
+});

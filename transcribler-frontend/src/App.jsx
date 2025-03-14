@@ -19,6 +19,20 @@ import theme from "./theme";
 import { Grid2 as Grid, ThemeProvider } from "@mui/material";
 
 function App() {
+  const [url, setUrl] = useState("");
+  useEffect(()=>{
+    console.log("yo")
+    chrome.runtime.sendMessage(
+      {type: "GET_ACTIVE_TAB_URL"},
+      (response) => {
+        if (response?.url) {
+          setUrl(response.url);
+        } else {
+          setUrl("");
+        }
+      }
+    )
+  })
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>
@@ -26,7 +40,7 @@ function App() {
           <DataProvider>
             <Grid container direction="column">
               <Routes>
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={<Home url={url}/>} />
                 <Route path="/summary" element={<Summary />} />
                 <Route path="/history" element={<History />} />
                 <Route path="/chat" element={<Chat />} />
