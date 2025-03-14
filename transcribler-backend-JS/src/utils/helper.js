@@ -9,14 +9,14 @@ export async function getAudio(url) {
     const audio = ytdl(url, { filter: 'audioonly' });
     const path = './src/audio_output/audio.mp3';
     const writeStream = fs.createWriteStream(path);
-     
+    
     audio.pipe(writeStream);
 
     return new Promise((resolve, reject) => {
         writeStream.on('finish', () => {
             resolve(path);
         });
-
+        
         writeStream.on('error', (error) => {
             reject(error);
         });
