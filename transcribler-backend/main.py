@@ -73,7 +73,7 @@ def main(url):
     video_id = url.split("=")[1]
     summarizer = Gemini_Summarization
     video_id
-
+    
     transcript = get_transcript(video_id)
 
     final_summary = summarizer.generate_response(transcript, VIN_SUMMARY_PROMPT, GEMINI_API_KEY)

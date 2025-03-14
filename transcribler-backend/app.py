@@ -14,6 +14,5 @@ def get_summary():
     data = request.get_json()
     return main(data["url"])
 
-
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
