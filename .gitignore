@@ -11,3 +11,5 @@ transcribler/package-lock.json
 /transcribler-backend/node_modules
 /transcribler-frontend/.vite
 /transcribler-frontend/node_modules
+
+/transcribler-backend-JS/node_modules
