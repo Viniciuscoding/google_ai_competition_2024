@@ -3,7 +3,7 @@ import { useNavigate, Link, NavLink } from "react-router-dom";
 import { useData } from "../../providers/DataContext";
 
 // api
-import { getVideoData } from "../../api";
+import { getVideoData, summarizeText } from "../../api";
 
 // mui components
 import {
@@ -28,6 +28,8 @@ function Home({ url }) {
   const { user, loading, signOut } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  const [logger, setLogger] = useState("none");
+
   const handleSubmit = async () => {
     setLoadingAnalysis(true);
     try {
@@ -38,6 +40,15 @@ function Home({ url }) {
       console.error(e);
     }
     setLoadingAnalysis(false);
+  };
+
+  const test = `The FitnessGram™ Pacer Test is a multistage aerobic capacity test that progressively gets more difficult as it continues. The 20 meter pacer test will begin in 30 seconds. Line up at the start. The running speed starts slowly, but gets faster each minute after you hear this signal. [beep] A single lap should be completed each time you hear this sound. [ding] Remember to run in a straight line, and run as long as possible. The second time you fail to complete a lap before the sound, your test is over. The test will begin on the word start. On your mark, get ready, start.`;
+
+  const testSumarize = async () => {
+    setLogger("testing summarize api");
+    summarizeText(test).then((response) => {
+      setLogger(response);
+    });
   };
 
   useEffect(() => {
@@ -97,6 +108,7 @@ function Home({ url }) {
               <Typography variant="h4" component="h1" sx={{ py: 2 }}>
                 Welcome to Transcribler!
               </Typography>
+              <>Log: {logger}</>
               {user == null ? (
                 <>
                   <Button
@@ -136,7 +148,10 @@ function Home({ url }) {
                   />
                   <Tooltip title="Generate Analysis">
                     <IconButton
-                      onClick={handleSubmit}
+                      onClick={
+                        // handleSubmit
+                        testSumarize
+                      }
                       sx={{ width: 56, height: 56, borderRadius: "50%" }}
                     >
                       {loadingAnalysis ? <CircularProgress /> : <Send />}
