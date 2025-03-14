@@ -10,6 +10,12 @@ from topic_detection_function_vin import detect_topics_sentiment
 from Vin_Gemini_Video_Summary import Transcription
 from configs import VIN_SUMMARY_PROMPT, VIN_TOPIC, VIN_SENTIMENT_ANALYSIS
 
+
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
+
+from pytubefix import YouTube
+
 # Load the .env file
 current_dir = os.path.dirname(os.path.abspath(__file__))
 env_path = os.path.join(current_dir, ".env")
@@ -57,43 +63,34 @@ def parse_sentiment(sentiment):
             data[key] = value
     return data
 
+def download_audio(youtube_url):
+  """Downloads the audio of a YouTube video to Google Cloud Storage.
+
+  Args:
+    youtube_url: The URL of the YouTube video.
+  """
+
+  try:
+    yt = YouTube(youtube_url)
+    print(f"Downloading: {yt.title}")
+    audio_stream = yt.streams.filter(only_audio=True).first()
+
+    if audio_stream:
+        # Download the audio to a temporary file
+        temp_file = audio_stream.download(output_path="./audio")
+        print(f"Downloaded to {temp_file}")
+        return temp_file
+    else:
+        print("No suitable audio stream found.")
+
+  except Exception as e:
+    print(f"An error occurred: {e}")
+
+
+
 def main(url):
-    print(url)
-    # Extracting HTML Code of the Video Page:
-    response = requests.get(url)
-    html_content = response.text
-
-    # Processing the HTML Code with BeautifulSoup
-    soup = BeautifulSoup(html_content, 'html.parser')
-
-    # Extracting <title> tag's content
-    title_tag = soup.find('meta', property='og:title')
-    video_title = title_tag['content'] if title_tag else 'Title not found'
-
-    video_id = url.split("=")[1]
-    summarizer = Gemini_Summarization
-    video_id
-    
-    transcript = get_transcript(video_id)
-
-    final_summary = summarizer.generate_response(transcript, VIN_SUMMARY_PROMPT, GEMINI_API_KEY)
-
-    # print(final_summary)
-
-    topics = summarizer.generate_response(transcript, VIN_TOPIC, GEMINI_API_KEY)
-
-    # print(Markdown(topics))
-
-    sentiment = summarizer.generate_response(transcript, VIN_SENTIMENT_ANALYSIS, GEMINI_API_KEY)
-    
-    data = parse_sentiment(sentiment)
-    data["final summary"] = final_summary
-    data["topics"] = topics
-    data["title"] = video_title
+    data = download_audio(url)
     json_data = json.dumps(data, indent=4)
-    print(sentiment)
-    print(data)
-    print(json_data)
     return json_data
 
 if __name__ == "__main__":

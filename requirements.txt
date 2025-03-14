@@ -31,3 +31,6 @@ flask_cors
 langdetect
 IPython
 bs4
+fastapi
+fastapi["standard"]
+yt-dlp

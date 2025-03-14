@@ -20,19 +20,19 @@ import { Grid2 as Grid, ThemeProvider } from "@mui/material";
 
 function App() {
   const [url, setUrl] = useState("");
-  useEffect(()=>{
-    console.log("yo")
-    chrome.runtime.sendMessage(
-      {type: "GET_ACTIVE_TAB_URL"},
-      (response) => {
-        if (response?.url) {
-          setUrl(response.url);
-        } else {
-          setUrl("");
-        }
+  useEffect(() => {
+    // Send a message to the background script
+    chrome.runtime.sendMessage({ type: "GET_ACTIVE_TAB_URL" }, (response) => {
+      if (response && response.url) {
+        console.log("URL received:", response.url);
+        setUrl(response.url);
+      } else {
+        console.log("No URL received");
+        setUrl(null);
       }
-    )
-  })
+    });
+  }, []);
+
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>

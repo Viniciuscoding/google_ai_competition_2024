@@ -3,7 +3,15 @@ import { useNavigate, Link, NavLink } from "react-router-dom";
 import { useData } from "../../providers/DataContext";
 
 // api
-import { getVideoData, summarizeText } from "../../api";
+import { 
+  getVideoData, 
+  getTest, 
+  summarizeText, 
+  transcribeAudio,
+  ageRating,
+  toxicity,
+  sentimentAnalysis
+} from "../../api";
 
 // mui components
 import {
@@ -21,7 +29,9 @@ import { Logout, Send } from "@mui/icons-material";
 
 import { AuthContext } from "../../providers/AuthContext";
 
-function Home({ url }) {
+function Home({ 
+  url
+}) {
   const [loadingAnalysis, setLoadingAnalysis] = useState(false);
   // const [url, setUrl] = useState(null);
   const { setData } = useData();
@@ -30,19 +40,33 @@ function Home({ url }) {
 
   const [logger, setLogger] = useState("none");
 
+
+
   const handleSubmit = async () => {
     setLoadingAnalysis(true);
     try {
-      const response = await getVideoData(url);
-      setData(response);
-      navigate("/summary");
+      const test = await getTest(url);
+      const transcription = await transcribeAudio(test);
+      const summary = await summarizeText(transcription);
+      const rating = await ageRating(summary);
+
+      const data = {};
+      data["final summary"] = summary;
+      data["Age Rating"] = rating;
+      data["Toxicity"] = await toxicity(summary);
+      data["Sentiment Analysis"] = await sentimentAnalysis(summary);
+      setData(data);
+
+      // const response = await getVideoData(url);
+      // setData(response);
+      // navigate("/summary");
     } catch (e) {
       console.error(e);
     }
     setLoadingAnalysis(false);
   };
 
-  const test = `The FitnessGram™ Pacer Test is a multistage aerobic capacity test that progressively gets more difficult as it continues. The 20 meter pacer test will begin in 30 seconds. Line up at the start. The running speed starts slowly, but gets faster each minute after you hear this signal. [beep] A single lap should be completed each time you hear this sound. [ding] Remember to run in a straight line, and run as long as possible. The second time you fail to complete a lap before the sound, your test is over. The test will begin on the word start. On your mark, get ready, start.`;
+  const test = "Do you think it was sufficient to give your CEO a 45% pay increase year-over-year while you're cutting 15,000 jobs? Mr. uh, what is it? Geiselinger, I think it is? He made $11.6 million in 2022. Now he's making $17 million. Was that, is that an efficiency?";
 
   const testSumarize = async () => {
     setLogger("testing summarize api");
@@ -52,8 +76,12 @@ function Home({ url }) {
   };
 
   useEffect(() => {
+    setLogger(url + " " + loadingAnalysis);
     if (url && !loadingAnalysis) {
       handleSubmit();
+    }
+    else{
+      setLogger("no url" + " " + url + " " + loadingAnalysis) 
     }
   }, [url]);
 
@@ -141,7 +169,7 @@ function Home({ url }) {
                     required
                     label="Video URL"
                     variant="outlined"
-                    onChange={(event) => setUrl(event.target.value)}
+                    // onChange={(event) => setUrl(event.target.value)}
                     sx={{ flexGrow: 1 }} // This makes the TextField take up available space.
                     value={url}
                     disabled
@@ -149,8 +177,8 @@ function Home({ url }) {
                   <Tooltip title="Generate Analysis">
                     <IconButton
                       onClick={
-                        // handleSubmit
-                        testSumarize
+                        handleSubmit
+                        // testSumarize
                       }
                       sx={{ width: 56, height: 56, borderRadius: "50%" }}
                     >
